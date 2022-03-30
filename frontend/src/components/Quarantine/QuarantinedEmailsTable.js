@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import EmailTableComponent from "./EmailTableComponent"
-import Button from "@mui/material/Button"
+import QuarantinedEmailsTableRow from "./QuarantinedEmailsTableRow"
 import Box from "@mui/material/Box"
 import Colors from "../../utils/colors"
 import { makeStyles } from "@mui/styles"
-import Typography from "@mui/material/Typography"
 import Table from "@mui/material/Table"
 import TableRow from "@mui/material/TableRow"
 import TableCell from "@mui/material/TableCell"
@@ -13,21 +11,11 @@ import TableHead from "@mui/material/TableHead"
 import TableBody from "@mui/material/TableBody"
 import TableContainer from "@mui/material/TableContainer"
 import TablePagination from "@mui/material/TablePagination"
-import TableSortLabel from "@mui/material/TableSortLabel"
 import Paper from "@mui/material/Paper"
-import Checkbox from "@mui/material/Checkbox"
-import IconButton from "@mui/material/IconButton"
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
-import MoreVertIcon from "@mui/icons-material/MoreVert"
-import {
-  quarantinedEmailsSelector,
-  shownColumnsSelector,
-} from "../../redux/selectors/quarantinedEmailsSelectors"
-import {
-  modifyShownColumn,
-  modifySelected,
-} from "../../redux/reducers/quarantinedEmailsSlice"
+import { quarantinedEmailsSelector } from "../../redux/selectors/quarantinedEmailsSelectors"
+import { modifySelected } from "../../redux/reducers/quarantinedEmailsSlice"
+import NoEmailsTableCell from "./NoEmailsTableCell"
+import QuaratineEmailsTableColumns from "./QuarantinedEmailsTableColumns"
 
 const useStyles = makeStyles({
   tableHeaderCellText: {
@@ -96,6 +84,10 @@ const QuarantinedEmailsTable = ({ searchQuery }) => {
     (state) => state.quarantinedEmails.shownColumns
   )
 
+  useEffect(() => {
+    setPage(0)
+  }, [searchQuery])
+
   const selectedRows = useSelector((state) => state.quarantinedEmails.selected)
 
   const checkEmailContainsString = (email, str) => {
@@ -106,6 +98,7 @@ const QuarantinedEmailsTable = ({ searchQuery }) => {
       if (Array.isArray(valueToCheck)) {
         valueToCheck = valueToCheck.join(" ")
       }
+      valueToCheck = String(valueToCheck)
       if (valueToCheck.toLowerCase().includes(str.toLowerCase())) return true
     }
     return false
@@ -120,6 +113,7 @@ const QuarantinedEmailsTable = ({ searchQuery }) => {
     const newOrder = isAsc ? "desc" : "asc"
     setOrder(newOrder)
     setOrderBy(property)
+    setPage(0)
     localStorage.setItem("sortOrder", newOrder)
     localStorage.setItem("sortProperty", property)
   }
@@ -185,15 +179,32 @@ const QuarantinedEmailsTable = ({ searchQuery }) => {
 
   const isSelected = (id) => selectedRows.indexOf(id) !== -1
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - emails.length) : 0
+  const tableRows =
+    emails.length !== 0 ? (
+      stableSort(emails, getComparator(order, orderBy))
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map((e, index) => (
+          <QuarantinedEmailsTableRow
+            key={index}
+            email={e}
+            seen={false}
+            handleClick={handleClick}
+            order={order}
+            isSelected={isSelected(e.id)}
+            orderBy={orderBy}
+            page={page}
+          />
+        ))
+    ) : (
+      <NoEmailsTableCell />
+    )
 
   return (
     <Box>
       <TableContainer component={Paper}>
         <Table>
           <TableHead className={classes.tableHead}>
-            <TableHeaderContent
+            <QuaratineEmailsTableColumns
               onSelectAll={handleSelectAllClick}
               isSelectAllChecked={isSelectAllChecked()}
               onSort={handleRequestSort}
@@ -201,34 +212,11 @@ const QuarantinedEmailsTable = ({ searchQuery }) => {
               orderBy={orderBy}
             />
           </TableHead>
-          <TableBody className={classes.tableBody}>
-            {stableSort(emails, getComparator(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((e, index) => (
-                <EmailTableComponent
-                  key={index}
-                  email={e}
-                  seen={false}
-                  handleClick={handleClick}
-                  order={order}
-                  isSelected={isSelected(e.id)}
-                  orderBy={orderBy}
-                />
-              ))}
-            {emptyRows > 0 && (
-              <TableRow
-                style={{
-                  height: 68 * emptyRows,
-                }}
-              >
-                <TableCell colSpan={Object.keys(shownColumns).length + 2} />
-              </TableRow>
-            )}
-          </TableBody>
+          <TableBody className={classes.tableBody}>{tableRows}</TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[2, 5, 10, 25, 50]}
+        rowsPerPageOptions={[5, 10, 25, 50]}
         component={Paper}
         count={emails.length}
         rowsPerPage={rowsPerPage}
@@ -238,137 +226,6 @@ const QuarantinedEmailsTable = ({ searchQuery }) => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Box>
-  )
-}
-
-const ShownColumnsMenu = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const open = Boolean(anchorEl)
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-  const dispatch = useDispatch()
-  const activeOptions = useSelector(
-    (state) => state.quarantinedEmails.shownColumns
-  )
-  const options = useSelector((state) => state.quarantinedEmails.columns)
-  const ITEM_HEIGHT = 75
-  const isColumnShown = (id) => activeOptions[id]
-
-  return (
-    <React.Fragment>
-      <IconButton
-        id="long-button"
-        sx={{ paddingLeft: "1.1rem", color: `${Colors.theme_red}` }}
-        onClick={handleClick}
-      >
-        <MoreVertIcon />
-      </IconButton>
-
-      <Menu
-        MenuListProps={{
-          style: { padding: 0 },
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          style: {
-            maxHeight: ITEM_HEIGHT * 4.4,
-            width: "17rem",
-          },
-        }}
-      >
-        <Typography
-          sx={{
-            backgroundColor: `${Colors.theme_red}30`,
-            padding: "1rem",
-            paddingLeft: "1.6rem",
-            fontSize: "1rem",
-            fontWeight: "500",
-          }}
-        >
-          Show Columns
-        </Typography>
-        {options.map(({ label, id, disabled }) => (
-          <MenuItem
-            divider={true}
-            disabled={disabled}
-            key={id}
-            onClick={() => dispatch(modifyShownColumn(id))}
-            sx={{
-              borderTop: `solid 1px ${Colors.theme_red_light}`,
-            }}
-          >
-            <Checkbox
-              sx={{ paddingRight: "1.7rem" }}
-              color="fillColor"
-              checked={isColumnShown(id)}
-              disableRipple
-            />
-            {label}
-          </MenuItem>
-        ))}
-      </Menu>
-    </React.Fragment>
-  )
-}
-
-const TableHeaderContent = ({
-  onSelectAll,
-  isSelectAllChecked,
-  orderBy,
-  order,
-  onSort,
-}) => {
-  const classes = useStyles()
-  const columns = useSelector((state) => shownColumnsSelector(state))
-  return (
-    <TableRow sx={{ borderBottom: `1.2px solid ${Colors.theme_red}` }}>
-      <TableCell
-        sx={{ borderRight: `1px solid ${Colors.theme_red_light}` }}
-        padding="checkbox"
-      >
-        <Checkbox
-          color="fillColor"
-          checked={isSelectAllChecked}
-          onChange={onSelectAll}
-        />
-      </TableCell>
-      {columns.map(({ id, label, noWrap }) => (
-        <TableCell key={id} padding="none">
-          <TableSortLabel
-            component={Button}
-            active={orderBy === id}
-            sx={{
-              height: "100%",
-              width: "100%",
-              padding: "16px",
-              textTransform: "none",
-              fontSize: "1rem",
-              borderRight: `1px solid ${Colors.theme_red_light}`,
-            }}
-            direction={orderBy === id ? order : "asc"}
-            onClick={() => onSort(id)}
-          >
-            <Typography
-              key={id}
-              align="left"
-              className={classes.tableHeaderCellText}
-              noWrap={noWrap}
-            >
-              {label}
-            </Typography>
-          </TableSortLabel>
-        </TableCell>
-      ))}
-      <TableCell padding="checkbox">
-        <ShownColumnsMenu />
-      </TableCell>
-    </TableRow>
   )
 }
 

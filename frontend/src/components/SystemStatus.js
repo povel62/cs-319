@@ -1,63 +1,63 @@
-import React, { useState, useEffect } from "react";
-import PageWrapper from "../components/PageWrapper";
-import axios from "axios";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import StopCircleIcon from "@mui/icons-material/StopCircle";
-import Fab from "@mui/material/Fab";
-import Grid from "@mui/material/Grid";
-import Tooltip from "@mui/material/Tooltip";
-import Colors from "../utils/colors";
+import React, { useState, useEffect } from "react"
+import PageWrapper from "../components/PageWrapper"
+import axios from "axios"
+import Backdrop from "@mui/material/Backdrop"
+import CircularProgress from "@mui/material/CircularProgress"
+import PlayCircleIcon from "@mui/icons-material/PlayCircle"
+import StopCircleIcon from "@mui/icons-material/StopCircle"
+import Fab from "@mui/material/Fab"
+import Grid from "@mui/material/Grid"
+import Tooltip from "@mui/material/Tooltip"
+import Colors from "../utils/colors"
 
 const SystemStatus = (props) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    getIsServiceRunning();
-  }, [props.isServieRunning]);
+    getIsServiceRunning()
+  }, [props.isServiceRunning])
 
   const getIsServiceRunning = () => {
-    setIsLoading(true);
+    setIsLoading(true)
     axios
       .get(`/api/pull/status`)
       .then((response) => {
-        props.setIsServieRunning(response.data);
-        setIsLoading(false);
+        props.setIsServiceRunning(response.data)
+        setIsLoading(false)
       })
       .catch((error) => {
         props.openSnackbarWithMessage({
           status: false,
           response: `Service status could not be retrieved`,
-        });
-        setIsLoading(false);
+        })
+        setIsLoading(false)
         // error
-      });
-  };
+      })
+  }
 
   const startOrStopService = () => {
-    setIsLoading(true);
+    setIsLoading(true)
     axios
-      .get(`/api/pull/${props.isServieRunning ? "stop" : "start"}`)
+      .get(`/api/pull/${props.isServiceRunning ? "stop" : "start"}`)
       .then((response) => {
         props.openSnackbarWithMessage({
           status: true,
           response: response.data,
-        });
-        props.setIsServieRunning(!props.isServieRunning);
-        setIsLoading(false);
+        })
+        props.setIsServiceRunning(!props.isServiceRunning)
+        setIsLoading(false)
       })
       .catch((error) => {
         props.openSnackbarWithMessage({
           status: false,
           response: `Service could not be ${
-            props.isServieRunning ? "stopped" : "started"
+            props.isServiceRunning ? "stopped" : "started"
           }`,
-        });
-        setIsLoading(false);
+        })
+        setIsLoading(false)
         // error
-      });
-  };
+      })
+  }
 
   return (
     <>
@@ -76,7 +76,7 @@ const SystemStatus = (props) => {
       >
         <Tooltip
           title={
-            props.isServieRunning
+            props.isServiceRunning
               ? "Stop Email Fetching Service"
               : "Start Email Fetching Service"
           }
@@ -86,12 +86,13 @@ const SystemStatus = (props) => {
             variant="extended"
             onClick={startOrStopService}
             style={{
-              backgroundColor: props.isServieRunning
-                ? Colors.theme_red
+              backgroundColor: props.isServiceRunning
+                ? Colors.theme_red_light
                 : Colors.theme_green,
+              paddingRight: "1rem",
             }}
           >
-            {props.isServieRunning ? (
+            {props.isServiceRunning ? (
               <StopCircleIcon sx={{ mr: 1 }} />
             ) : (
               <PlayCircleIcon sx={{ mr: 1 }} />
@@ -101,7 +102,7 @@ const SystemStatus = (props) => {
         </Tooltip>
       </Grid>
     </>
-  );
-};
+  )
+}
 
-export default SystemStatus;
+export default SystemStatus

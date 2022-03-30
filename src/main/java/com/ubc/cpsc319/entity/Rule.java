@@ -26,6 +26,9 @@ public class Rule {
 
     private double riskLevel;
 
+    @Column(columnDefinition="TEXT")
+    private String description = "";
+
     @CreationTimestamp
     private Date createdOn;
 
@@ -48,6 +51,14 @@ public class Rule {
     public void setId(Long id)
     {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getName()

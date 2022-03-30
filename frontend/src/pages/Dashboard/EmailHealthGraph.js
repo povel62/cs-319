@@ -10,6 +10,11 @@ import { CLEAN, QUARANTINED, SUSPICIOUS } from "../../utils/constants"
 
 const EmailHealthGraph = () => {
   const emails = useSelector(state => state.quarantinedEmails.emails)
+
+  if (!emails) {
+    return <></>
+  }
+
   const cleanEmails = emails.filter(email => email.emailCondition === CLEAN)
   const suspiciousEmails = emails.filter(
     email => email.emailCondition === SUSPICIOUS

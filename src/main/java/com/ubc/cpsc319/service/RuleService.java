@@ -12,4 +12,5 @@ public interface RuleService extends AbstractService<Rule> {
     List<Rule> findByIsInactiveFalse();
     Rule createEntityIfNotExisting(Rule rule);
     void delete(Rule rule);
+    Rule findByNameAndParameterAndRuleType(String name, String parameter, RuleType ruleType);
 }

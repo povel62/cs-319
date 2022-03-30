@@ -1,6 +1,7 @@
 package com.ubc.cpsc319.service.impl;
 
-import com.ubc.cpsc319.evaluation.RuleEvaluator;
+import com.ubc.cpsc319.service.CacheService;
+import com.ubc.cpsc319.service.RuleEvaluatorService;
 import com.ubc.cpsc319.service.ProcessorService;
 import com.ubc.cpsc319.service.PullService;
 import microsoft.exchange.webservices.data.core.ExchangeService;
@@ -30,13 +31,15 @@ public class PullServiceImpl implements PullService {
     public static ExchangeService exchangeService;
     public static PullSubscription subscription;
     public static Boolean isServiceRunning = false;
-    private RuleEvaluator evaluator;
 
     @Autowired
     private ProcessorService pc;
+    @Autowired
+    private CacheService cc;
 
     @Async("processExecutor")
     public void loop() throws Exception {
+        cc.initCache();
         exchangeService = new ExchangeService(ExchangeVersion.Exchange2010_SP2);
         ExchangeCredentials credentials = new WebCredentials("povel@6v02sw.onmicrosoft.com", "Harsh-2355");
         exchangeService.setCredentials(credentials);
@@ -52,7 +55,7 @@ public class PullServiceImpl implements PullService {
             findResults = exchangeService.findItems(folder.get(0), view);
             for (Item item : findResults.getItems()) {
                 item.load();
-                pc.processItem(item, exchangeService, evaluator);
+                pc.processItem(item, exchangeService);
             }
             view.setOffset(view.getOffset() + pageSize);
         } while (findResults.isMoreAvailable());
@@ -71,7 +74,7 @@ public class PullServiceImpl implements PullService {
                 if (itemEvent.getEventType() == EventType.NewMail) {
                     Item item = Item.bind(exchangeService, itemEvent.getItemId());
 
-                    pc.processItem(item, exchangeService, evaluator);
+                    pc.processItem(item, exchangeService);
 //					MessageBody mb = new MessageBody();
 //					mb.setBodyType(BodyType.Text);
 //					mb.setText("HEHE");
@@ -95,7 +98,6 @@ public class PullServiceImpl implements PullService {
         if (!isServiceRunning) {
             synchronized (isServiceRunning) {
                 if (!isServiceRunning) {
-                    evaluator = new RuleEvaluator();
                     isServiceRunning = true;
                     return "";
                 } else {
@@ -117,6 +119,7 @@ public class PullServiceImpl implements PullService {
                         try{
                             subscription.unsubscribe();
                         } catch (Exception e) {
+                            e.printStackTrace();
                             System.out.println(e.getMessage());
                         }
                         subscription = null;

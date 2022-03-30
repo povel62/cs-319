@@ -3,7 +3,6 @@ package com.ubc.cpsc319.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubc.cpsc319.entity.Email;
-import com.ubc.cpsc319.evaluation.RuleEvaluator;
 import com.ubc.cpsc319.service.CacheService;
 
 import com.ubc.cpsc319.service.EmailService;

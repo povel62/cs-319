@@ -4,49 +4,30 @@ import Div from "../../components/Div"
 import { Grid, Typography } from "@mui/material"
 import Colors from "../../utils/colors"
 import _ from "lodash"
+import moment from "moment"
 
-// TODO: avg daily emails, avg risk level
 const TopStats = () => {
   const emails = useSelector(state => state.quarantinedEmails.emails)
   const rules = useSelector(state => state.Rules.rules)
 
+  if (!emails || !rules) {
+    return <></>
+  }
+
   const filteredActiveRules = [...(rules ?? [])].filter(rule => !rule.inactive)
+  let totalRiskLevel = 0
+  let totalRulesTriggered = 0
+  rules?.forEach(rule => {
+    totalRiskLevel += rule.riskLevel * rule.numberOfMatchesTriggered
+    totalRulesTriggered += rule.numberOfMatchesTriggered
+  })
+  const avgRiskLevel = totalRiskLevel / (totalRulesTriggered ?? 1)
 
-  // const [stats, setStats] = useState({
-  //   totalEmails: 0,
-  //   totalRulesTriggered: 0,
-  //   averageDailyEmails: 0,
-  //   averageRiskLevel: 0,
-  // })
-
-  // useEffect(() => {
-  //   let totalEmails = props.emails.length;
-  //   let totalRulesTriggered = 0;
-  //   let totalRiskLevel = 0.0;
-  //   let averageRiskLevel = 0;
-  //   let ruleGrouped = _.mapValues(_.keyBy(props.rules, "name"), "riskLevel");
-
-  //   props.emails.forEach((e) => {
-  //     totalRulesTriggered += e.emailRuleMatches.length;
-  //     e.emailRuleMatches.forEach((r) => {
-  //       totalRiskLevel += ruleGrouped[r.split(": ")[1]];
-  //     });
-  //   });
-  //   averageRiskLevel = totalRiskLevel / totalRulesTriggered;
-
-  //   let dailyEmailGroups = _.groupBy(props.emails, (e) => {
-  //     return moment(e.dateTimeSent).startOf("day").format();
-  //   });
-
-  //   let averageDailyEmails = totalEmails / Object.keys(dailyEmailGroups).length;
-
-  //   setStats({
-  //     totalEmails: totalEmails,
-  //     totalRulesTriggered: totalRulesTriggered,
-  //     averageRiskLevel: averageRiskLevel,
-  //     averageDailyEmails: averageDailyEmails,
-  //   });
-  // }, [props]);
+  const dailyEmailGroups = _.groupBy(emails, email => {
+    return moment(email.dateTimeSent).startOf("day").format()
+  })
+  const avgDailyEmails =
+    emails?.length / (Object.keys(dailyEmailGroups).length ?? 1)
 
   return (
     <Div>
@@ -57,8 +38,14 @@ const TopStats = () => {
             title={"Active Unique Rules Triggered"}
             count={filteredActiveRules.length}
           />
-          <StatBox title={"Average Daily Emails"} count={4} />
-          <StatBox title={"Average Risk Level"} count={0.63} />
+          <StatBox
+            title={"Average Daily Emails"}
+            count={avgDailyEmails.toFixed(0)}
+          />
+          <StatBox
+            title={"Average Risk Level"}
+            count={avgRiskLevel.toFixed(2)}
+          />
         </Grid>
       </Div>
     </Div>

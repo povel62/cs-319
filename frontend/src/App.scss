@@ -11,8 +11,61 @@ body {
   position: relative;
   display: grid;
   grid-template-columns: 230px 1fr;
-  grid-template-rows: 53px 1fr;
+  grid-template-rows: 60px 1fr;
   box-sizing: border-box;
   height: 100vh;
   overflow: hidden;
+}
+
+.react-datepicker {
+  &-popper {
+    margin-top: 0.4rem;
+  }
+  &__input-container input {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.7rem;
+    margin-left: 0.3rem;
+    border: none;
+    border-bottom: solid $theme_red 1px;
+    outline: none;
+  }
+
+  &__day {
+    &:hover {
+      background-color: rgba($theme_red, 0.3);
+    }
+    &--selected,
+    &--keyboard-selected {
+      background-color: $theme_red;
+      outline: none;
+      &:hover {
+        background-color: rgba($theme_red, 0.7);
+      }
+    }
+    &--outside-month {
+      background-color: rgba(lightgray, 0.4);
+    }
+  }
+
+  &__header {
+    background-color: rgba($theme_red, 0.1);
+  }
+
+  &__month-container {
+    button,
+    select {
+      padding: 0.3rem;
+      outline: none;
+      border: none;
+      margin: 0 0.2rem;
+      background-color: white;
+      &:hover {
+        background-color: rgba($theme_red, 0.13);
+      }
+    }
+
+    button {
+      margin: 0 0.5rem;
+    }
+  }
 }

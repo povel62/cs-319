@@ -55,7 +55,7 @@ const SideNav = () => {
   const location = useLocation()
   const classes = useStyles()
 
-  const navigateHandler = path => {
+  const navigateHandler = (path) => {
     navigate(`${path}`, { replace: true })
   }
 
@@ -75,6 +75,7 @@ const SideNav = () => {
         marginBottom: "25px",
         fontSize: "0px",
       },
+      onClick: () => navigateHandler(pathNameMap["home"]),
       customClassName: "logo",
     },
     {
@@ -90,7 +91,7 @@ const SideNav = () => {
       selected: location.pathname === pathNameMap["rules"],
     },
     {
-      text: <Typography variant="body2">Quaratined Emails</Typography>,
+      text: <Typography variant="body2">View Emails</Typography>,
       icon: <MailIcon fontSize="small" color="text" />,
       onClick: () => navigateHandler(pathNameMap["quarantine"]),
       selected: location.pathname === pathNameMap["quarantine"],

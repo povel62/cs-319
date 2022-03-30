@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "email", uniqueConstraints = @UniqueConstraint(columnNames = { "subject", "body", "fromAddress", "toAddress", "ccAddress", "bccAddress", "dateTimeSent"}))
+@Table(name = "email", uniqueConstraints = @UniqueConstraint(columnNames = {"subject", "body", "fromAddress", "toAddress", "ccAddress", "bccAddress", "dateTimeSent"}))
 @NamedQuery(name = "Email.findAll", query = "SELECT u FROM Email u")
 public class Email {
     @Id
@@ -21,25 +21,28 @@ public class Email {
     @Column(nullable = false)
     private String subject;
 
-    @Column(nullable = false, columnDefinition="TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 
     @Column(nullable = false)
     private int size;
 
     @Column(nullable = false)
+    private double score;
+
+    @Column(nullable = false)
     private String fromAddress;
 
-    @Column(nullable = false, columnDefinition="TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String toAddress;
 
     @Column(nullable = false)
     private Date dateTimeSent;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String ccAddress = "";
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String bccAddress = "";
 
     @Column(nullable = false)
@@ -70,13 +73,11 @@ public class Email {
         this.dateTimeSent = dateTimeSent;
     }
 
-    public Long getId()
-    {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -110,6 +111,14 @@ public class Email {
 
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
     }
 
     public void setSize(int size) {
@@ -167,7 +176,10 @@ public class Email {
     public List<String> getEmailRuleMatches() {
         List<String> emptyStringList = new ArrayList<>();
         return emailRuleMatchList == null ? emptyStringList
-                : emailRuleMatchList.stream().map(x->x.getRule().getRuleType() + ": " + x.getRule().getName()).collect(Collectors.toList());
+                : emailRuleMatchList.stream().map(x -> x.getRule().getRuleType()
+                        + (x.getRule().getParameter() != null && !x.getRule().getParameter().trim().isEmpty()
+                        ? " (" + x.getRule().getParameter() + ")" : "")
+                + ": " + x.getRule().getName()).collect(Collectors.toList());
     }
 
     public List<EmailRuleMatch> getEmailRuleMatchList() {
@@ -195,8 +207,7 @@ public class Email {
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -207,11 +218,10 @@ public class Email {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Email [id=" + id + ", from=" + fromAddress + ", to=" + toAddress + ", cc="
-                + ccAddress  + ", bcc=" + bccAddress  + ", subject="
+                + ccAddress + ", bcc=" + bccAddress + ", subject="
                 + subject + ", body=" + body + ", condition=" + emailCondition.name()
-                + ", iterated condition=" + iteratedEmailCondition.name() + "]";
+                + ", iterated condition=" + iteratedEmailCondition.name() + ", score=" + score + "]";
     }
 }

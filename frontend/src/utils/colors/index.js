@@ -1,6 +1,6 @@
 const Colors = {
   theme_green: "#9DCF94",
-  theme_green_a_bit_draker: "#50b43d",
+  theme_green_a_bit_darker: "#50b43d",
   theme_red: "#AD1B02",
   theme_red_light: "#AD1B2480",
   theme_orange: "#E88D14",
@@ -16,6 +16,7 @@ const Colors = {
   lightGrey: "#DFE0F0",
   grey: "#9FA2B4",
   pageColor: "#f4f2f7",
-};
+  black: "#000000",
+}
 
-export default Colors;
+export default Colors

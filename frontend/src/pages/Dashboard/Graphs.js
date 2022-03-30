@@ -2,11 +2,12 @@ import React, { useState } from "react"
 import Div from "../../components/Div"
 import Colors from "../../utils/colors"
 import GraphPicker from "./GraphPicker"
+import { GRAPH1, GRAPH2, GRAPH3, GRAPH4 } from "../../utils/constants"
 import DetailedTimelineGraph from "./DetailedTimelineGraph"
 import EmailHealthGraph from "./EmailHealthGraph"
-import { GRAPH1, GRAPH2, GRAPH3, GRAPH4 } from "../../utils/constants"
+import RuleFrequencyGraph from "./RuleFrequencyGraph"
+import EmailInfoGraph from "./EmailInfoGraph"
 
-// TODO: add graph 3, graph 4
 const Graphs = () => {
   const [selectedGraph, setSelectedGraph] = useState(GRAPH1)
   return (
@@ -27,9 +28,9 @@ const Graphs = () => {
         ) : selectedGraph === GRAPH2 ? (
           <DetailedTimelineGraph />
         ) : selectedGraph === GRAPH3 ? (
-          <Div>TBA {GRAPH3}</Div>
+          <EmailInfoGraph />
         ) : (
-          <Div>TBA {GRAPH4}</Div>
+          <RuleFrequencyGraph />
         )}
       </Div>
     </Div>

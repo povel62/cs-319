@@ -15,29 +15,17 @@ export const getEmailDateString = (date) => {
   const formattedInputDate = moment(new Date(date)).format()
   let outputDate = ""
   if (isSameDay(formattedCurrDate, formattedInputDate)) {
-    outputDate = getTime(date)
+    outputDate = momentFormatDate(date, "h:mm A")
   } else if (isWithinAWeek(formattedInputDate)) {
-    outputDate = getDayOfWeekAndTime(date)
+    outputDate = momentFormatDate(date, "ddd h:mm A")
   } else if (!isSameYear(formattedCurrDate, formattedInputDate)) {
-    outputDate = getNumericalDateFormat(date)
+    outputDate = momentFormatDate(date, "YYYY-MM-DD")
   } else {
-    outputDate = getDayOfWeekAndDate(date)
+    outputDate = momentFormatDate(date, "ddd MM-DD")
   }
   return outputDate
 }
 
-export const getTime = (date) => {
-  return moment(new Date(date)).format("h:mm A")
-}
-
-export const getDayOfWeekAndTime = (date) => {
-  return moment(new Date(date)).format("ddd h:mm A")
-}
-
-export const getDayOfWeekAndDate = (date) => {
-  return moment(new Date(date)).format("ddd MM-DD")
-}
-
-export const getNumericalDateFormat = (date) => {
-  return moment(new Date(date)).format("YYYY-MM-DD")
+export const momentFormatDate = (date, format) => {
+  return moment(new Date(date)).format(format)
 }

@@ -1,33 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchEmails } from "../redux/reducers/quarantinedEmailsSlice";
-import Div from "../components/Div";
-import PageWrapper from "../components/PageWrapper";
+import React, { useState, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchEmails } from "../redux/reducers/quarantinedEmailsSlice"
+import Div from "../components/Div"
+import PageWrapper from "../components/PageWrapper"
 import {
   QuarantinedEmailsSearchBarHeader,
   QuarantinedEmailsInfoPanel,
   QuarantinedEmailsTable,
-} from "../components";
-import Colors from "../utils/colors";
-import Divider from "@mui/material/Divider";
-import axios from "axios";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import { stubFalse } from "lodash";
+} from "../components"
+import Divider from "@mui/material/Divider"
+import Backdrop from "@mui/material/Backdrop"
+import CircularProgress from "@mui/material/CircularProgress"
 
 const Quarantine = (props) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.quarantinedEmails.isLoading);
-  const emails = useSelector((state) => state.quarantinedEmails.emails);
-
+  const [searchQuery, setSearchQuery] = useState("")
+  const dispatch = useDispatch()
+  const isLoading = useSelector((state) => state.quarantinedEmails.isLoading)
   useEffect(() => {
-    dispatch(fetchEmails());
-  }, [props.isNewEmail]);
+    dispatch(fetchEmails())
+  }, [props.isNewEmail])
 
   const handleSearchQuery = (e) => {
-    setSearchQuery(e.target.value);
-  };
+    setSearchQuery(e.target.value)
+  }
   return (
     <PageWrapper>
       <Backdrop
@@ -51,7 +46,7 @@ const Quarantine = (props) => {
         <QuarantinedEmailsTable searchQuery={searchQuery} />
       </Div>
     </PageWrapper>
-  );
-};
+  )
+}
 
-export default Quarantine;
+export default Quarantine

@@ -19,7 +19,7 @@ const QuarantinedEmailsSearchBarHeader = ({
       pr={30}
       style={{ boxSizing: "border-box" }}
     >
-      <Typography variant="h6">Quarantined Emails</Typography>
+      <Typography variant="h6">Emails</Typography>
       <FilledInput
         color="fillColor"
         placeholder="Search"

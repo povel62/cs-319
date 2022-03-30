@@ -42,7 +42,7 @@ public class RuleCreation {
     public boolean isInactive() {
         return isInactive;
     }
-    public void setInactive(boolean inactive) {
-        isInactive = inactive;
+    public void setIsInactive(boolean isInactive) {
+        this.isInactive = isInactive;
     }
 }

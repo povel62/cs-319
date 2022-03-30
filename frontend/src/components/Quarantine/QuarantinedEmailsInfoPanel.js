@@ -26,24 +26,24 @@ const QuarantinedEmailsInfoPanel = () => {
   // };
 
   const dispatch = useDispatch()
-  const buttonStyling = { border: "none", padding: "10px 17px", margin: "5px" }
+  const buttonStyling = { border: "none", padding: "10px 20px", margin: "5px" }
   const alphaHex = "45"
   const alphaHexHover = "60"
   const emailModifyButtonsList = [
-    {
-      value: "forward",
-      title: "Forward Emails",
-      icon: <ShortcutOutlinedIcon />,
-      color: `${Colors.theme_orange}${alphaHex}`,
-      hoverColor: `${Colors.theme_orange}${alphaHexHover}`,
-    },
-    {
-      value: "delete",
-      title: "Delete Emails",
-      icon: <DeleteOutlineIcon />,
-      color: `${Colors.theme_red}${alphaHex}`,
-      hoverColor: `${Colors.theme_red}${alphaHexHover}`,
-    },
+    // {
+    //   value: "forward",
+    //   title: "Forward Emails",
+    //   icon: <ShortcutOutlinedIcon />,
+    //   color: `${Colors.theme_orange}${alphaHex}`,
+    //   hoverColor: `${Colors.theme_orange}${alphaHexHover}`,
+    // },
+    // {
+    //   value: "delete",
+    //   title: "Delete Emails",
+    //   icon: <DeleteOutlineIcon />,
+    //   color: `${Colors.theme_red}${alphaHex}`,
+    //   hoverColor: `${Colors.theme_red}${alphaHexHover}`,
+    // },
   ]
 
   const selectedItems = useSelector((state) => state.quarantinedEmails.selected)
@@ -103,7 +103,8 @@ const QuarantinedEmailsInfoPanel = () => {
               paddingBottom: "0",
             }}
           >
-            {selectedItemsLength} Emails Selected
+            {selectedItemsLength}
+            {`${selectedItemsLength > 1 ? " Emails" : " Email"}`} Selected
           </Typography>
           <Typography
             sx={{

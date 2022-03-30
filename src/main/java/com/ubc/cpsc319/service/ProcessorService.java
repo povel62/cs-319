@@ -2,7 +2,6 @@ package com.ubc.cpsc319.service;
 
 import com.ubc.cpsc319.entity.*;
 import com.ubc.cpsc319.evaluation.RuleEvalStruct;
-import com.ubc.cpsc319.evaluation.RuleEvaluator;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.PropertySet;
 import microsoft.exchange.webservices.data.core.service.item.EmailMessage;
@@ -11,12 +10,12 @@ import microsoft.exchange.webservices.data.core.service.schema.EmailMessageSchem
 import microsoft.exchange.webservices.data.property.complex.Attachment;
 import microsoft.exchange.webservices.data.property.complex.EmailAddress;
 import microsoft.exchange.webservices.data.property.complex.ItemAttachment;
-import org.hibernate.Hibernate;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -43,6 +42,9 @@ public class ProcessorService {
     @Autowired
     RuleService ruleService;
 
+    @Autowired
+    RuleEvaluatorService evaluator;
+
     private String resolvePythonScriptPath(String filename) {
         File file = new File(filename);
         return file.getAbsolutePath();
@@ -55,7 +57,8 @@ public class ProcessorService {
         }
     }
 
-    public void processItem(Item item, ExchangeService es, RuleEvaluator evaluator) throws Exception {
+    public void processItem(Item item, ExchangeService es) throws Exception {
+        evaluator.initService();
         item.load();
         try {
             ItemAttachment at = ((ItemAttachment) item.getAttachments().getItems().get(0));
@@ -105,12 +108,13 @@ public class ProcessorService {
             try {
                 CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()])).join();
             } catch(CompletionException e) {
+                e.printStackTrace();
                 System.out.println(e.getMessage());
             }
 
             // Record all email rule matches and calculate score
             List<EmailRuleMatch> rulesMatchedWithEmail = new ArrayList<>();
-            double mailScore = 1;
+            BigDecimal mailScore = new BigDecimal(1.0);
             for(Future<RuleEvalStruct> future: futures) {
                 RuleEvalStruct res = future.get();
                 if(res.isHit) {
@@ -122,7 +126,7 @@ public class ProcessorService {
                     rulesMatchedWithEmail.add(erm);
 
                     // Multiple rule score by 1's complement of risk level
-                    mailScore = mailScore * (1 - res.rule.getRiskLevel());
+                    mailScore = mailScore.multiply(new BigDecimal(1.0).subtract(new BigDecimal(res.rule.getRiskLevel())));
                 }
             }
 
@@ -138,9 +142,10 @@ public class ProcessorService {
             }
             mail.setAttachments(attachmentList);
             mail.setEmailRuleMatchList(rulesMatchedWithEmail);
+            mail.setScore(new BigDecimal(1.0).subtract(mailScore).doubleValue());
             double suspiciousThreshold = thresholds.getDouble(0); // default .33
             double quarantineThreshold = thresholds.getDouble(1); // default .66
-            if (mailScore < (1 - quarantineThreshold)) {
+            if (mailScore.compareTo(new BigDecimal(1.0).subtract(new BigDecimal(quarantineThreshold))) == -1) {
                 mail.setEmailCondition(EmailCondition.SPAM);
                 mail.setIteratedEmailCondition(EmailCondition.SPAM);
                 emailService.save(mail); // this updates, so stays save
@@ -148,7 +153,7 @@ public class ProcessorService {
                 // Don't forward this email to sender. Quarantine it
                 emailAction = "false";
                 suspiciousMsg = "ERROR: This email has been flagged as a spam\n\n";
-            } else if (mailScore < (1 - suspiciousThreshold)) {
+            } else if (mailScore.compareTo(new BigDecimal(1.0).subtract(new BigDecimal(suspiciousThreshold))) == -1) {
                 mail.setEmailCondition(EmailCondition.SUSPICIOUS);
                 mail.setIteratedEmailCondition(EmailCondition.SUSPICIOUS);
                 emailService.save(mail); // this updates, so stays save
@@ -180,6 +185,7 @@ public class ProcessorService {
             System.out.println(results.stream().collect(Collectors.joining("\n")));
         } catch (Exception e) {
             // log and keep going
+            e.printStackTrace();
             System.out.println(e.getMessage());
         }
 

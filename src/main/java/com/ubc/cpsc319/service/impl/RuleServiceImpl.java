@@ -30,6 +30,10 @@ public class RuleServiceImpl implements RuleService {
         return ruleRepository.getRuleByRuleTypeAndIsInactiveFalse(ruleType);
     }
 
+    public Rule findByNameAndParameterAndRuleType(String name, String parameter, RuleType ruleType) {
+        return ruleRepository.findByNameAndParameterAndRuleType(name, parameter, ruleType);
+    }
+
     public Rule createEntityIfNotExisting(Rule rule)
     {
         synchronized (RuleServiceImpl.class)

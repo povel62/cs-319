@@ -5,19 +5,23 @@ const shownColumns = {
   fromAddress: true,
   toAddress: true,
   subject: true,
-  riskRating: true,
+  score: true,
   emailRuleMatches: true,
   emailCondition: true,
   createdOn: true,
 }
 
 const columnsList = [
-  { id: "fromAddress", label: "From", disabled: true },
-  { id: "toAddress", label: "To" },
-  { id: "subject", label: "Subject" },
-  { id: "riskRating", label: "Risk Rating", noWrap: true },
-  { id: "emailRuleMatches", label: "Rule Hit", noWrap: true },
-  { id: "emailCondition", label: "Condition" },
+  { id: "fromAddress", label: "From", disabled: true, maxWidth: "100px" },
+  { id: "toAddress", label: "To", maxWidth: "100px" },
+  { id: "subject", label: "Subject", maxWidth: "130px" },
+  {
+    id: "emailRuleMatches",
+    label: "Rule Hit",
+    maxWidth: "200px",
+  },
+  { id: "score", label: "Risk Rating", noWrap: true },
+  { id: "emailCondition", label: "Risk Level" },
   { id: "createdOn", label: "Recieved" },
 ]
 
@@ -47,7 +51,7 @@ const quarantinedEmailsSlice = createSlice({
       localStorage.setItem("shownColumns", JSON.stringify(state.shownColumns))
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       .addCase(fetchEmails.pending, (state, action) => {
         state.isLoading = true
@@ -62,10 +66,10 @@ const quarantinedEmailsSlice = createSlice({
 export const fetchEmails = createAsyncThunk("fetchEmails", async () => {
   return await axios
     .get(`/api/email`)
-    .then(response => {
+    .then((response) => {
       return response.data
     })
-    .catch(error => {})
+    .catch((error) => {})
 })
 
 export const { modifyColumnSort, modifySelected, modifyShownColumn } =

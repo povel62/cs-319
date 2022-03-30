@@ -23,6 +23,7 @@ const CustomDatePicker = ({ date, setDate }) => {
 
   return (
     <DatePicker
+      dateFormat="MMM dd, yyyy"
       renderCustomHeader={({
         date,
         changeYear,
@@ -46,7 +47,7 @@ const CustomDatePicker = ({ date, setDate }) => {
             value={moment(date).get("year")}
             onChange={({ target: { value } }) => changeYear(value)}
           >
-            {years.map(option => (
+            {years.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -59,7 +60,7 @@ const CustomDatePicker = ({ date, setDate }) => {
               changeMonth(months.indexOf(value))
             }
           >
-            {months.map(option => (
+            {months.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -72,7 +73,7 @@ const CustomDatePicker = ({ date, setDate }) => {
         </div>
       )}
       selected={date}
-      onChange={date => setDate(date)}
+      onChange={(date) => setDate(date)}
     />
   )
 }

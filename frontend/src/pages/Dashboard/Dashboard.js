@@ -1,33 +1,34 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Div from "../../components/Div";
-import Typography from "@mui/material/Typography";
-import Graphs from "./Graphs";
-import TopStats from "./TopStats";
-import BottomStats from "./BottomStats";
-import PageWrapper from "../../components/PageWrapper";
-import { fetchEmails } from "../../redux/reducers/quarantinedEmailsSlice";
-import { fetchRules } from "../../redux/reducers/rulesSlice";
-import { Backdrop, CircularProgress } from "@mui/material";
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import Div from "../../components/Div"
+import Typography from "@mui/material/Typography"
+import Graphs from "./Graphs"
+import TopStats from "./TopStats"
+import BottomStats from "./BottomStats"
+import PageWrapper from "../../components/PageWrapper"
+import { fetchEmails } from "../../redux/reducers/quarantinedEmailsSlice"
+import { fetchRules, fetchRuleTypes } from "../../redux/reducers/rulesSlice"
+import { Backdrop, CircularProgress } from "@mui/material"
 
-const Dashboard = (props) => {
-  const dispatch = useDispatch();
+const Dashboard = props => {
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchEmails());
-    dispatch(fetchRules());
-  }, [dispatch, props.isNewEmail]);
+    dispatch(fetchEmails())
+    dispatch(fetchRules())
+    dispatch(fetchRuleTypes())
+  }, [dispatch, props.isNewEmail])
 
-  const isRulesLoading = useSelector((state) => state.Rules.isLoading);
+  const isRulesLoading = useSelector(state => state.Rules.isLoading)
   const isEmailsLoading = useSelector(
-    (state) => state.quarantinedEmails.isLoading
-  );
+    state => state.quarantinedEmails.isLoading
+  )
 
   return (
     <PageWrapper>
       {isRulesLoading || isEmailsLoading ? (
         <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
           open={isRulesLoading || isEmailsLoading}
         >
           <CircularProgress color="inherit" />
@@ -45,7 +46,7 @@ const Dashboard = (props) => {
         </Div>
       )}
     </PageWrapper>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard
