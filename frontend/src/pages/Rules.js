@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Grid,
@@ -19,24 +19,24 @@ import {
   Tooltip,
   tooltipClasses,
   styled,
-} from "@mui/material"
-import axios from "axios"
-import Div from "../components/Div"
-import DeleteIcon from "@mui/icons-material/Delete"
-import EditIcon from "@mui/icons-material/Edit"
-import PageWrapper from "../components/PageWrapper"
-import Colors from "../utils/colors"
-import Backdrop from "@mui/material/Backdrop"
-import CircularProgress from "@mui/material/CircularProgress"
-import InfoIcon from "@mui/icons-material/Info"
-import Fade from "@mui/material/Fade"
-import InputLabel from "@mui/material/InputLabel"
-import { momentFormatDate } from "../utils/dateTimeFormat"
-import Divider from "@mui/material/Divider"
-import QuarantinedEmailsSearchBarHeader from "../components/Quarantine/QuarantinedEmailsSearchBarHeader"
-import SearchBar from "../components/SearchBar"
-import { useDispatch, useSelector } from "react-redux"
-import { fetchRuleTypes } from "../redux/reducers/rulesSlice"
+} from "@mui/material";
+import axios from "axios";
+import Div from "../components/Div";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import PageWrapper from "../components/PageWrapper";
+import Colors from "../utils/colors";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import InfoIcon from "@mui/icons-material/Info";
+import Fade from "@mui/material/Fade";
+import InputLabel from "@mui/material/InputLabel";
+import { momentFormatDate } from "../utils/dateTimeFormat";
+import Divider from "@mui/material/Divider";
+import QuarantinedEmailsSearchBarHeader from "../components/Quarantine/QuarantinedEmailsSearchBarHeader";
+import SearchBar from "../components/SearchBar";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRuleTypes } from "../redux/reducers/rulesSlice";
 
 const ruleTypeToConfig = {
   KEYWORD: {
@@ -68,7 +68,7 @@ const ruleTypeToConfig = {
     textfields: [{ name: "Text", type: "text" }],
   },
   // USERNAME_ITERATION: { display_name: "Username Iteration", textfields: [] },
-}
+};
 
 const ColumnNames = () => {
   return (
@@ -92,8 +92,8 @@ const ColumnNames = () => {
         <Typography variant="h6">Created</Typography>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 const RuleWizard = ({
   ruleTypes,
@@ -105,40 +105,40 @@ const RuleWizard = ({
   mode,
   data,
 }) => {
-  const [name, setName] = useState("")
-  const [ruleType, setRuleType] = useState("")
-  const [riskLevel, setRiskLevel] = useState(0.5)
-  const [isInactive, setIsInactive] = useState(true)
-  const [parameter, setParameter] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
+  const [name, setName] = useState("");
+  const [ruleType, setRuleType] = useState("");
+  const [riskLevel, setRiskLevel] = useState(0.5);
+  const [isInactive, setIsInactive] = useState(true);
+  const [parameter, setParameter] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const isEditMode = mode === "edit"
+  const isEditMode = mode === "edit";
   useEffect(() => {
     if (isEditMode) {
-      setName(data.name)
-      setParameter(data.parameter)
-      setRuleType(data.ruleType)
-      setRiskLevel(data.riskLevel)
-      setIsInactive(data.inactive)
+      setName(data.name);
+      setParameter(data.parameter);
+      setRuleType(data.ruleType);
+      setRiskLevel(data.riskLevel);
+      setIsInactive(data.inactive);
     } else {
-      setName("")
-      setParameter("")
-      setRuleType("")
-      setRiskLevel(0.5)
-      setIsInactive(true)
+      setName("");
+      setParameter("");
+      setRuleType("");
+      setRiskLevel(0.5);
+      setIsInactive(true);
     }
-  }, [open, mode])
+  }, [open, mode]);
 
   const createRule = () => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     if (!name || (!parameter && ruleType === "FREQUENCY")) {
       setResponseMessage({
         status: false,
         response: "Name or Parameter cannot be blank",
-      })
-      setIsLoading(false)
-      return
+      });
+      setIsLoading(false);
+      return;
     }
 
     axios
@@ -153,22 +153,22 @@ const RuleWizard = ({
         setResponseMessage({
           status: true,
           response: "Rule: " + name + " was created sucessfully",
-        })
-        setIsLoading(false)
-        getRules()
+        });
+        setIsLoading(false);
+        getRules();
       })
       .catch((error) => {
         setResponseMessage({
           status: false,
           response: "The rule could not be created",
-        })
-        setIsLoading(false)
-        console.log(error)
-      })
-  }
+        });
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
 
   const editRule = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     axios
       .post(`/api/rule/${data.id}/risk-level`, {
         riskLevel,
@@ -177,19 +177,19 @@ const RuleWizard = ({
         setResponseMessage({
           status: true,
           response: "Rule: " + name + " was edited sucessfully",
-        })
-        setIsLoading(false)
-        getRules()
+        });
+        setIsLoading(false);
+        getRules();
       })
       .catch((error) => {
         setResponseMessage({
           status: false,
           response: "The rule could not be edited",
-        })
-        setIsLoading(false)
-        console.log(error)
-      })
-  }
+        });
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
   const riskLevels = [
     {
       value: 0,
@@ -211,9 +211,9 @@ const RuleWizard = ({
       value: 1,
       label: "Dangerous",
     },
-  ]
+  ];
 
-  const selectedRuleTypeConfig = ruleTypeToConfig[ruleType]
+  const selectedRuleTypeConfig = ruleTypeToConfig[ruleType];
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
@@ -233,10 +233,10 @@ const RuleWizard = ({
             disabled={isEditMode}
             value={ruleType || ""}
             onChange={(e) => {
-              setRuleType(e.target.value)
-              setName("")
-              setIsInactive(true)
-              setParameter("")
+              setRuleType(e.target.value);
+              setName("");
+              setIsInactive(true);
+              setParameter("");
             }}
           >
             {ruleTypes.map((ruleType, i) => {
@@ -275,7 +275,7 @@ const RuleWizard = ({
                     </Box>
                   </MenuItem>
                 )
-              )
+              );
             })}
           </Select>
         </Div>
@@ -292,9 +292,9 @@ const RuleWizard = ({
                   textfield.type === "naturalNumber" &&
                   !/^([0-9])*$/.test(e.target.value)
                 ) {
-                  return
+                  return;
                 }
-                setName(e.target.value)
+                setName(e.target.value);
               }}
               InputProps={{
                 inputProps: {
@@ -314,8 +314,8 @@ const RuleWizard = ({
               size="small"
               value={parameter}
               onChange={(e) => {
-                ;/^([0-9])*$/.test(e.target.value) &&
-                  setParameter(e.target.value)
+                /^([0-9])*$/.test(e.target.value) &&
+                  setParameter(e.target.value);
               }}
               InputProps={{
                 inputProps: {
@@ -336,7 +336,7 @@ const RuleWizard = ({
               defaultValue={riskLevel}
               step={0.01}
               onChange={(e) => {
-                setRiskLevel(e.target.value)
+                setRiskLevel(e.target.value);
               }}
               sx={{
                 ".MuiSlider-rail": {
@@ -361,7 +361,7 @@ const RuleWizard = ({
             <Switch
               disabled={isEditMode}
               onChange={(e) => {
-                setIsInactive(!e.target.checked)
+                setIsInactive(!e.target.checked);
               }}
             />
           </Div>
@@ -372,11 +372,11 @@ const RuleWizard = ({
         <Button
           onClick={() => {
             if (isEditMode) {
-              editRule()
+              editRule();
             } else {
-              createRule()
+              createRule();
             }
-            handleClose()
+            handleClose();
           }}
           autoFocus
         >
@@ -384,8 +384,8 @@ const RuleWizard = ({
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};
 
 const Rule = ({
   id,
@@ -398,11 +398,11 @@ const Rule = ({
   setResponseMessage,
   editRule,
 }) => {
-  const [isLoading, setIsLoading] = useState(false)
-  const ruleTypes = useSelector((state) => state.Rules.ruleTypes) || []
+  const [isLoading, setIsLoading] = useState(false);
+  const ruleTypes = useSelector((state) => state.Rules.ruleTypes) || [];
 
   const updateRuleStatus = (id, isInActive) => {
-    setIsLoading(true)
+    setIsLoading(true);
     axios
       .post(`/api/rule/${id}/is-inactive/${isInActive}`)
       .then((response) => {
@@ -411,40 +411,40 @@ const Rule = ({
           response: `Rule has been ${
             isInActive ? "deactivated" : "activated"
           } successfully`,
-        })
-        setIsLoading(false)
-        getRules()
+        });
+        setIsLoading(false);
+        getRules();
       })
       .catch((error) => {
         setResponseMessage({
           status: false,
           response: "The update was unsuccessful",
-        })
-        setIsLoading(false)
-      })
-  }
+        });
+        setIsLoading(false);
+      });
+  };
 
   const deleteRule = (id) => {
-    setIsLoading(true)
+    setIsLoading(true);
     axios
       .delete(`/api/rule/${id}`)
       .then((response) => {
         setResponseMessage({
           status: true,
           response: "Rule has been deleted successfully",
-        })
-        setIsLoading(false)
-        getRules()
+        });
+        setIsLoading(false);
+        getRules();
       })
       .catch((error) => {
         setResponseMessage({
           status: false,
           response: "The rule could not be deleted",
-        })
-        setIsLoading(false)
-        console.log(error)
-      })
-  }
+        });
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
 
   return (
     <Box
@@ -518,6 +518,9 @@ const Rule = ({
               aria-label="delete"
               color="primary"
               onClick={() => deleteRule(id)}
+              disabled={
+                ruleType === "USERNAME_ITERATION" || ruleType === "ASCII"
+              }
             >
               <DeleteIcon />
             </IconButton>
@@ -525,8 +528,8 @@ const Rule = ({
         </Grid>
       </Grid>
     </Box>
-  )
-}
+  );
+};
 
 const Ruleset = ({ name, children, type }) => {
   return (
@@ -548,15 +551,15 @@ const Ruleset = ({ name, children, type }) => {
         </Box>
       </Div>
     </Paper>
-  )
-}
+  );
+};
 
 const RiskThresholds = ({ thresholdsParent, saveThresholds }) => {
-  const [thresholds, setThresholds] = useState(thresholdsParent)
+  const [thresholds, setThresholds] = useState(thresholdsParent);
 
   useEffect(() => {
-    setThresholds(thresholdsParent)
-  }, [thresholdsParent])
+    setThresholds(thresholdsParent);
+  }, [thresholdsParent]);
 
   const marks = [
     {
@@ -567,7 +570,7 @@ const RiskThresholds = ({ thresholdsParent, saveThresholds }) => {
       value: 1,
       label: "1",
     },
-  ]
+  ];
 
   return (
     <Paper variant="outlined">
@@ -583,21 +586,21 @@ const RiskThresholds = ({ thresholdsParent, saveThresholds }) => {
               value={thresholds}
               onChange={(event, newThresholds, activeThumb) => {
                 if (!Array.isArray(newThresholds)) {
-                  return
+                  return;
                 }
 
-                const minDistance = 0.01
+                const minDistance = 0.01;
 
                 if (activeThumb === 0) {
                   setThresholds([
                     Math.min(newThresholds[0], thresholds[1] - minDistance),
                     thresholds[1],
-                  ])
+                  ]);
                 } else {
                   setThresholds([
                     thresholds[0],
                     Math.max(newThresholds[1], thresholds[0] + minDistance),
-                  ])
+                  ]);
                 }
               }}
               marks={marks}
@@ -605,13 +608,13 @@ const RiskThresholds = ({ thresholdsParent, saveThresholds }) => {
               max={1}
               valueLabelDisplay="auto"
               valueLabelFormat={(value) => {
-                let level = ""
+                let level = "";
                 if (value === thresholds[0]) {
-                  level = "Suspicious"
+                  level = "Suspicious";
                 } else {
-                  level = "Quarantine"
+                  level = "Quarantine";
                 }
-                return level + " If Risk > " + value
+                return level + " If Risk > " + value;
               }}
               step={0.01}
               disableSwap
@@ -673,30 +676,30 @@ const RiskThresholds = ({ thresholdsParent, saveThresholds }) => {
         </Div>
       </Div>
     </Paper>
-  )
-}
+  );
+};
 
 const Rules = (props) => {
-  const [thresholds, setThresholds] = useState([0.33, 0.66])
-  const [wizardOpen, setWizardOpen] = useState(false)
-  const [wizardOpenMode, setWizardOpenMode] = useState("create")
-  const [wizardData, setWizardData] = useState({})
-  const [rules, setRules] = useState([])
-  const [ruleTypes, setRuleTypes] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [thresholds, setThresholds] = useState([0.33, 0.66]);
+  const [wizardOpen, setWizardOpen] = useState(false);
+  const [wizardOpenMode, setWizardOpenMode] = useState("create");
+  const [wizardData, setWizardData] = useState({});
+  const [rules, setRules] = useState([]);
+  const [ruleTypes, setRuleTypes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchQuery = (e) => {
-    setSearchQuery(e.target.value)
-  }
+    setSearchQuery(e.target.value);
+  };
 
   const filterBySearch = searchQuery
     ? (rules) => {
-        const formattedQuery = searchQuery.toLowerCase()
-        const terms = formattedQuery.split(" ")
+        const formattedQuery = searchQuery.toLowerCase();
+        const terms = formattedQuery.split(" ");
         return rules.filter((rule) =>
           terms.every(
             (term) =>
@@ -705,77 +708,77 @@ const Rules = (props) => {
               rule.parameter?.toLowerCase().includes(term) ||
               (rule.ruleType.includes("SIZE") && "bytes".includes(term))
           )
-        )
+        );
       }
-    : (rules) => rules
+    : (rules) => rules;
 
   useEffect(() => {
-    getRules()
-    getRuleTypes()
-    getSystemConfig()
-    dispatch(fetchRuleTypes())
-  }, [])
+    getRules();
+    getRuleTypes();
+    getSystemConfig();
+    dispatch(fetchRuleTypes());
+  }, []);
 
   const getRules = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     axios
       .get(`/api/rule`)
       .then((response) => {
-        setRules(response.data)
-        setIsLoading(false)
+        setRules(response.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         props.openSnackbarWithMessage({
           status: false,
           response: "Rules could not be retreived",
-        })
-        console.log(error)
-        setIsLoading(false)
-      })
-  }
+        });
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
 
   const getRuleTypes = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     axios
       .get(`/api/rule/types`)
       .then((response) => {
-        setRuleTypes(response.data)
-        setIsLoading(false)
+        setRuleTypes(response.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         props.openSnackbarWithMessage({
           status: false,
           response: "Rule Types could not be retreived",
-        })
-        console.log(error)
-        setIsLoading(false)
-      })
-  }
+        });
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
 
   const getSystemConfig = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     axios
       .get(`/api/system-config`)
       .then((response) => {
         if (response.data.length > 0) {
           setThresholds(
             JSON.parse(response.data.find((x) => x.name === "thresholds").value)
-          )
+          );
         }
-        setIsLoading(false)
+        setIsLoading(false);
       })
       .catch((error) => {
         props.openSnackbarWithMessage({
           status: false,
           response: "System Configuration could not be retreived",
-        })
-        console.log(error)
-        setIsLoading(false)
-      })
-  }
+        });
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
 
   const saveThresholds = (thresholds) => {
-    setIsLoading(true)
+    setIsLoading(true);
     axios
       .post(`/api/system-config`, {
         name: "thresholds",
@@ -785,18 +788,18 @@ const Rules = (props) => {
         props.openSnackbarWithMessage({
           status: true,
           response: "Thresholds have been set successfully",
-        })
-        setIsLoading(false)
+        });
+        setIsLoading(false);
       })
       .catch((error) => {
         props.openSnackbarWithMessage({
           status: false,
           response: "Thresholds could not be saved",
-        })
-        console.log(error)
-        setIsLoading(false)
-      })
-  }
+        });
+        console.log(error);
+        setIsLoading(false);
+      });
+  };
 
   const CustomWidthTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -804,7 +807,7 @@ const Rules = (props) => {
     [`& .${tooltipClasses.tooltip}`]: {
       maxWidth: 500,
     },
-  })
+  });
 
   return (
     <PageWrapper>
@@ -877,8 +880,8 @@ const Rules = (props) => {
             <Button
               variant="contained"
               onClick={() => {
-                setWizardOpen(true)
-                setWizardOpenMode("create")
+                setWizardOpen(true);
+                setWizardOpenMode("create");
               }}
             >
               Add Rule
@@ -905,9 +908,9 @@ const Rules = (props) => {
                 getRules={getRules}
                 setResponseMessage={props.openSnackbarWithMessage}
                 editRule={() => {
-                  setWizardOpen(true)
-                  setWizardOpenMode("edit")
-                  setWizardData(activeRule)
+                  setWizardOpen(true);
+                  setWizardOpenMode("edit");
+                  setWizardData(activeRule);
                 }}
               />
             ))}
@@ -932,9 +935,9 @@ const Rules = (props) => {
                 getRules={getRules}
                 setResponseMessage={props.openSnackbarWithMessage}
                 editRule={() => {
-                  setWizardOpen(true)
-                  setWizardOpenMode("edit")
-                  setWizardData(inactiveRule)
+                  setWizardOpen(true);
+                  setWizardOpenMode("edit");
+                  setWizardData(inactiveRule);
                 }}
               />
             ))}
@@ -946,7 +949,7 @@ const Rules = (props) => {
         />
       </Div>
     </PageWrapper>
-  )
-}
+  );
+};
 
-export default Rules
+export default Rules;
