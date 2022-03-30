@@ -207,10 +207,10 @@ public class RuleEvaluatorService {
         // Doesn't pass regex than not ASCII
         String regex = "\\A\\p{ASCII}*\\z";
 
-        return mail.getFromAddress().toLowerCase().matches(regex) &&
+        return !(mail.getFromAddress().toLowerCase().matches(regex) &&
                 mail.getToAddress().toLowerCase().matches(regex) &&
                 mail.getBody().toLowerCase().matches(regex) &&
-                mail.getSubject().toLowerCase().matches(regex);
+                mail.getSubject().toLowerCase().matches(regex));
     }
 }
 
