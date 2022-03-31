@@ -109,7 +109,7 @@ const RulesTable = ({
       field: "lastUpdated",
       headerName: "Last Updated",
       type: "dateTime",
-      valueGetter: ({ value }) => {
+      valueFormatter: ({ value }) => {
         return !value || value === "N/A"
           ? "N/A"
           : momentFormatDate(value, "MMM DD YYYY, h:mm A")
@@ -209,12 +209,22 @@ const RulesTable = ({
       }
     )
 
+  const tableTextStyle = {
+    color: Colors.theme_red,
+    fontSize: 15,
+  }
   return (
     <DataGrid
       sx={{
-        "& .MuiDataGrid-columnHeaders": {
-          color: Colors.theme_red,
-          fontSize: 15,
+        "& .MuiDataGrid-columnHeaders": tableTextStyle,
+        "& .MuiTablePagination-selectLabel": tableTextStyle,
+        "& .MuiTablePagination-displayedRows": tableTextStyle,
+        "& .MuiTablePagination-select": tableTextStyle,
+        "& .MuiTablePagination-actions .MuiSvgIcon-root": {
+          fill: Colors.theme_red,
+        },
+        "& .MuiTablePagination-actions .Mui-disabled .MuiSvgIcon-root": {
+          fill: Colors.mediumGrey,
         },
       }}
       disableSelectionOnClick
