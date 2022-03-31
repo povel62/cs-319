@@ -10,7 +10,7 @@ import { Autocomplete, TextField } from "@mui/material"
 const labels = ["Quarantined", "Suspicious", "Clean"]
 
 const EmailInfoGraph = () => {
-  const emails = useSelector(state => state.quarantinedEmails.emails)
+  const emails = useSelector((state) => state.quarantinedEmails.emails)
   const groupedEmails = {}
 
   for (const email of emails) {
@@ -59,10 +59,15 @@ const EmailInfoGraph = () => {
         groupedEmails[selectedEmail]?.suspiciousEmails ?? 1,
         groupedEmails[selectedEmail]?.cleanEmails ?? 1,
       ],
+      borderColor: [
+        Colors.theme_red_fill,
+        Colors.theme_orange_fill,
+        Colors.theme_green_fill,
+      ],
       backgroundColor: [
-        Colors.theme_red,
-        Colors.theme_orange,
-        Colors.theme_yellow,
+        Colors.theme_red_fill,
+        Colors.theme_orange_fill,
+        Colors.theme_green_fill,
       ],
     },
   ]
@@ -86,7 +91,9 @@ const EmailInfoGraph = () => {
                 onInputChange={(e, value) => setInputValue(value)}
                 options={emailList}
                 sx={{ width: 344 }}
-                renderInput={params => <TextField {...params} label="Email" />}
+                renderInput={(params) => (
+                  <TextField {...params} label="Email" />
+                )}
                 disableClearable
                 disablePortal
               />

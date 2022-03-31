@@ -339,6 +339,7 @@ const RuleWizard = ({
               marks={riskLevels}
               min={0}
               max={1}
+              color="fillColor"
               valueLabelDisplay="auto"
               defaultValue={riskLevel}
               step={0.01}

@@ -1,9 +1,12 @@
 const Colors = {
   theme_green: "#9DCF94",
   theme_green_a_bit_darker: "#50b43d",
+  theme_green_fill: "#50b43d80",
   theme_red: "#AD1B02",
+  theme_red_fill: "#AD1B0280",
   theme_red_light: "#AD1B2480",
   theme_orange: "#E88D14",
+  theme_orange_fill: "#E88D1480",
   theme_orange_light: "#E88D1450",
   theme_pink: "#d93954",
   theme_pink_light: "#d939542a",

@@ -20,7 +20,7 @@ const DetailedTimelineGraph = () => {
   const [endDate, setEndDate] = useState(moment().toDate())
   const [chartRange, setChartRange] = useState(DAILY)
 
-  const emails = useSelector(state => state.quarantinedEmails.emails)
+  const emails = useSelector((state) => state.quarantinedEmails.emails)
   const [stats, setStats] = useState({
     totalEmails: 0,
     quarantinedEmails: 0,
@@ -32,19 +32,19 @@ const DetailedTimelineGraph = () => {
   })
 
   useEffect(() => {
-    const rangedEmails = emails?.filter(e =>
+    const rangedEmails = emails?.filter((e) =>
       moment(e.dateTimeSent).isBetween(startDate, endDate)
     )
 
     const totalEmails = rangedEmails.length
     const quarantinedEmails = rangedEmails.filter(
-      e => e.iteratedEmailCondition === QUARANTINED
+      (e) => e.iteratedEmailCondition === QUARANTINED
     ).length
     const suspiciousEmails = rangedEmails.filter(
-      e => e.iteratedEmailCondition === SUSPICIOUS
+      (e) => e.iteratedEmailCondition === SUSPICIOUS
     ).length
     const cleanEmails = rangedEmails.filter(
-      e => e.iteratedEmailCondition === CLEAN
+      (e) => e.iteratedEmailCondition === CLEAN
     ).length
 
     const format =
@@ -65,7 +65,7 @@ const DetailedTimelineGraph = () => {
         ? (a, b) => moment(a).format("YYYYMMDD") - moment(b).format("YYYYMMDD")
         : (a, b) => a - b
 
-    const groupedEmails = _.groupBy(rangedEmails, e => {
+    const groupedEmails = _.groupBy(rangedEmails, (e) => {
       return chartRange === WEEKLY
         ? moment(e.dateTimeSent).startOf("week").format(format)
         : moment(e.dateTimeSent).format(format)
@@ -100,18 +100,18 @@ const DetailedTimelineGraph = () => {
 
     const datasetAvgRiskLevel = {}
 
-    labels.forEach(label => {
+    labels.forEach((label) => {
       const allLabelEmails = groupedEmails[label]
       quarantinedData.push(
-        allLabelEmails.filter(e => e.iteratedEmailCondition === QUARANTINED)
+        allLabelEmails.filter((e) => e.iteratedEmailCondition === QUARANTINED)
           .length
       )
       suspiciousData.push(
-        allLabelEmails.filter(e => e.iteratedEmailCondition === SUSPICIOUS)
+        allLabelEmails.filter((e) => e.iteratedEmailCondition === SUSPICIOUS)
           .length
       )
       cleanData.push(
-        allLabelEmails.filter(e => e.iteratedEmailCondition === CLEAN).length
+        allLabelEmails.filter((e) => e.iteratedEmailCondition === CLEAN).length
       )
       datasetAvgRiskLevel[label] =
         allLabelEmails.reduce((prev, curr) => prev + curr.score, 0) /
@@ -124,22 +124,22 @@ const DetailedTimelineGraph = () => {
         {
           label: "Quarantined",
           data: quarantinedData,
-          borderColor: [Colors.theme_red],
-          backgroundColor: [Colors.theme_red],
+          borderColor: [Colors.theme_red_fill],
+          backgroundColor: [Colors.theme_red_fill],
           cubicInterpolationMode: "monotone",
         },
         {
           label: "Suspicious",
           data: suspiciousData,
-          borderColor: [Colors.theme_orange],
-          backgroundColor: [Colors.theme_orange],
+          borderColor: [Colors.theme_orange_fill],
+          backgroundColor: [Colors.theme_orange_fill],
           cubicInterpolationMode: "monotone",
         },
         {
           label: "Clean",
           data: cleanData,
-          borderColor: [Colors.theme_yellow],
-          backgroundColor: [Colors.theme_yellow],
+          borderColor: [Colors.theme_green_fill],
+          backgroundColor: [Colors.theme_green_fill],
           cubicInterpolationMode: "monotone",
         },
       ],
@@ -175,7 +175,7 @@ const DetailedTimelineGraph = () => {
                   value={DAILY}
                   checked={chartRange === DAILY}
                   size="small"
-                  onChange={e => setChartRange(e.target.value)}
+                  onChange={(e) => setChartRange(e.target.value)}
                 />
                 <Typography variant="body2">Daily</Typography>
               </Div>
@@ -185,7 +185,7 @@ const DetailedTimelineGraph = () => {
                   value={WEEKLY}
                   checked={chartRange === WEEKLY}
                   size="small"
-                  onChange={e => setChartRange(e.target.value)}
+                  onChange={(e) => setChartRange(e.target.value)}
                 />
                 <Typography variant="body2">Weekly</Typography>
               </Div>
@@ -195,7 +195,7 @@ const DetailedTimelineGraph = () => {
                   checked={chartRange === MONTHLY}
                   disableRipple
                   size="small"
-                  onChange={e => setChartRange(e.target.value)}
+                  onChange={(e) => setChartRange(e.target.value)}
                 />
                 <Typography variant="body2">Monthly</Typography>
               </Div>
@@ -205,7 +205,7 @@ const DetailedTimelineGraph = () => {
                   checked={chartRange === YEARLY}
                   disableRipple
                   size="small"
-                  onChange={e => setChartRange(e.target.value)}
+                  onChange={(e) => setChartRange(e.target.value)}
                 />
                 <Typography variant="body2">Yearly</Typography>
               </Div>
@@ -228,7 +228,7 @@ const DetailedTimelineGraph = () => {
             plugins={{
               tooltip: {
                 callbacks: {
-                  afterBody: tooltipItems => {
+                  afterBody: (tooltipItems) => {
                     let totalEmails = 0
                     let avgRiskRating =
                       stats.datasetAvgRiskLevel[

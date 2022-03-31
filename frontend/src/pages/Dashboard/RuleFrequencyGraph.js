@@ -6,8 +6,8 @@ import { useSelector } from "react-redux"
 import { Autocomplete, TextField, Grid, Typography } from "@mui/material"
 
 const RuleFrequencyGraph = () => {
-  const rules = useSelector(state => state.Rules.rules)
-  const ruleTypes = useSelector(state => state.Rules.ruleTypes)
+  const rules = useSelector((state) => state.Rules.rules)
+  const ruleTypes = useSelector((state) => state.Rules.ruleTypes)
   const [selectedRuleType, setSelectedRuleType] = useState(null)
   const [ruleInputValue, setRuleInputValue] = useState("")
 
@@ -112,29 +112,29 @@ const RuleFrequencyGraph = () => {
         .concat(ruleTypesData[selectedRuleType].inactiveRules)
         .sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1))
     : Object.entries(ruleTypesData)
-        .filter(a => a[0] !== hashedAllRuleTypesData)
+        .filter((a) => a[0] !== hashedAllRuleTypesData)
         .sort((a, b) => (a[0] > b[0] ? 1 : -1))
   const datasets = [
     {
-      data: sortedData.map(ruleType =>
+      data: sortedData.map((ruleType) =>
         selectedRuleType
           ? ruleType.numberOfMatchesTriggered
           : ruleType[1].totalTimesTriggered
       ),
-      backgroundColor: sortedData.map(ruleType =>
+      backgroundColor: sortedData.map((ruleType) =>
         selectedRuleType
-          ? `hsl(${
+          ? `hsla(${
               intToDecimal(
                 hashCode(
                   ruleType.name + ruleType.numberOfMatchesTriggered + 3000
                 )
               ) * 360
-            }, 50%, 40%)`
-          : `hsl(${
+            }, 40%, 70%, 0.8)`
+          : `hsla(${
               intToDecimal(
                 hashCode(ruleType[0] + ruleType[1].totalTimesTriggered + 3000)
               ) * 360
-            }, 50%, 40%)`
+            }, 60%, 80%, 0.8)`
       ),
     },
   ]
@@ -157,10 +157,10 @@ const RuleFrequencyGraph = () => {
                 inputValue={ruleInputValue}
                 onInputChange={(e, value) => setRuleInputValue(value)}
                 options={Object.keys(ruleTypesData)
-                  .filter(rule => rule !== hashedAllRuleTypesData)
+                  .filter((rule) => rule !== hashedAllRuleTypesData)
                   .sort()}
                 sx={{ width: 344 }}
-                renderInput={params => (
+                renderInput={(params) => (
                   <TextField {...params} label="Rule Type" />
                 )}
                 disablePortal
@@ -169,7 +169,7 @@ const RuleFrequencyGraph = () => {
           </Div>
           <Div>
             <BarChart
-              labels={sortedData.map(ruleType =>
+              labels={sortedData.map((ruleType) =>
                 selectedRuleType ? ruleType.name : ruleType[0]
               )}
               datasets={datasets}
@@ -251,14 +251,14 @@ const RuleFrequencyGraph = () => {
   )
 }
 
-const hashCode = str => {
+const hashCode = (str) => {
   let hash = 0
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash)
   }
   return hash
 }
-const intToDecimal = i => {
+const intToDecimal = (i) => {
   return (i & 0x7fffffff) / Math.pow(2, 31)
 }
 

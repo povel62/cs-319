@@ -269,7 +269,7 @@ const Rules = (props) => {
             <Box width={8} />
             <Tooltip
               placement="bottom-start"
-              color="primary"
+              color="fillColor"
               title={`Rules are the filters upon which emails will be evaluated.
               They inspect various parts of an email and are triggered upon violation.
               Only rules that are marked as active will be used to evaluate emails.
@@ -304,6 +304,8 @@ const Rules = (props) => {
             <Box width={16} />
             <Button
               variant="contained"
+              color="fillColor"
+              sx={{ color: "white" }}
               onClick={() => {
                 setWizardOpen(true)
                 setWizardOpenMode("create")

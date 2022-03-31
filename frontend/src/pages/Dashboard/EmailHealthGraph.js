@@ -9,18 +9,18 @@ import { useSelector } from "react-redux"
 import { CLEAN, QUARANTINED, SUSPICIOUS } from "../../utils/constants"
 
 const EmailHealthGraph = () => {
-  const emails = useSelector(state => state.quarantinedEmails.emails)
+  const emails = useSelector((state) => state.quarantinedEmails.emails)
 
   if (!emails) {
     return <></>
   }
 
-  const cleanEmails = emails.filter(email => email.emailCondition === CLEAN)
+  const cleanEmails = emails.filter((email) => email.emailCondition === CLEAN)
   const suspiciousEmails = emails.filter(
-    email => email.emailCondition === SUSPICIOUS
+    (email) => email.emailCondition === SUSPICIOUS
   )
   const quarantinedEmails = emails.filter(
-    email => email.emailCondition === QUARANTINED
+    (email) => email.emailCondition === QUARANTINED
   )
 
   const datasets = [
@@ -32,9 +32,9 @@ const EmailHealthGraph = () => {
         cleanEmails.length,
       ],
       backgroundColor: [
-        Colors.theme_red,
-        Colors.theme_orange,
-        Colors.theme_yellow,
+        Colors.theme_red_fill,
+        Colors.theme_orange_fill,
+        Colors.theme_green_fill,
       ],
     },
   ]

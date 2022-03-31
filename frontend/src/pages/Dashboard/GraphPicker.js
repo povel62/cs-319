@@ -35,11 +35,16 @@ const GraphPicker = ({ selectedGraph, setSelectedGraph }) => {
 
 const GraphButton = ({ selectedGraph, setSelectedGraph, graphName }) => {
   return (
-    <Div backgroundColor="white">
+    <Div backgroundColor="white" mb={12}>
       <Button
-        variant="outlined"
+        variant={selectedGraph === graphName ? "contained" : "outlined"}
         onClick={() => setSelectedGraph(graphName)}
-        color={selectedGraph === graphName ? "secondary" : "primary"}
+        color={selectedGraph === graphName ? "fillColor" : "primary"}
+        sx={
+          selectedGraph === graphName && {
+            color: "white",
+          }
+        }
         disableRipple
       >
         {graphName}

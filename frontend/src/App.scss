@@ -32,14 +32,14 @@ body {
 
   &__day {
     &:hover {
-      background-color: rgba($theme_red, 0.3);
+      background-color: rgba($theme_red, 0.2);
     }
     &--selected,
     &--keyboard-selected {
-      background-color: $theme_red;
+      background-color: rgba($theme_red, 0.46);
       outline: none;
       &:hover {
-        background-color: rgba($theme_red, 0.7);
+        background-color: rgba($theme_red, 0.3);
       }
     }
     &--outside-month {
@@ -48,7 +48,7 @@ body {
   }
 
   &__header {
-    background-color: rgba($theme_red, 0.1);
+    background-color: rgba($theme_red, 0.2);
   }
 
   &__month-container {
@@ -60,12 +60,17 @@ body {
       margin: 0 0.2rem;
       background-color: white;
       &:hover {
-        background-color: rgba($theme_red, 0.13);
+        background-color: #ededed;
       }
+      cursor: pointer;
     }
 
     button {
       margin: 0 0.5rem;
     }
+  }
+
+  &__triangle {
+    display: none;
   }
 }

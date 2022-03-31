@@ -52,7 +52,8 @@ const ShownColumnsMenu = () => {
       >
         <Typography
           sx={{
-            backgroundColor: `${Colors.theme_red}30`,
+            backgroundColor: `${Colors.theme_red}25`,
+            borderBottom: `solid 1px ${Colors.theme_red}`,
             padding: "1rem",
             paddingLeft: "1.6rem",
             fontSize: "1rem",
