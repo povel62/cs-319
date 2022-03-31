@@ -67,8 +67,8 @@ public class ProcessorService {
 
             Email mail = new Email();
             mail.setSize(em.getSize());
-            mail.setBody(em.getBody().toString());
-            mail.setSubject(em.getSubject());
+            mail.setBody(em.getBody().toString() == null ? "" : em.getBody().toString());
+            mail.setSubject(em.getSubject() == null ? "" : em.getSubject());
             mail.setFromAddress(em.getFrom().toString());
             mail.setToAddress(em.getToRecipients().getItems().stream().map(EmailAddress::toString).collect(Collectors.joining(", ")));
             mail.setCcAddress(em.getCcRecipients().getItems().stream().map(EmailAddress::toString).collect(Collectors.joining(", ")));
