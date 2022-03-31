@@ -142,6 +142,7 @@ public class Email {
         return body == null ? "" : Jsoup.parse(body).text().trim();
     }
 
+
     public void setBody(String body) {
         this.body = body;
     }

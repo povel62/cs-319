@@ -87,8 +87,8 @@ const SystemStatus = (props) => {
             onClick={startOrStopService}
             style={{
               backgroundColor: props.isServiceRunning
-                ? Colors.theme_red_light
-                : Colors.theme_green,
+                ? Colors.theme_red_fill
+                : Colors.theme_green_fill,
               paddingRight: "1rem",
             }}
           >

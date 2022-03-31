@@ -7,7 +7,7 @@ import { useSelector } from "react-redux"
 import { CLEAN, SUSPICIOUS } from "../../utils/constants"
 import { Autocomplete, TextField } from "@mui/material"
 
-const labels = ["Quarantined", "Suspicious", "Clean"]
+const labels = ["Clean", "Suspicious", "Quarantined"]
 
 const EmailInfoGraph = () => {
   const emails = useSelector((state) => state.quarantinedEmails.emails)
@@ -55,19 +55,19 @@ const EmailInfoGraph = () => {
     {
       label: "Email",
       data: [
-        groupedEmails[selectedEmail]?.quarantinedEmails ?? 1,
-        groupedEmails[selectedEmail]?.suspiciousEmails ?? 1,
         groupedEmails[selectedEmail]?.cleanEmails ?? 1,
+        groupedEmails[selectedEmail]?.suspiciousEmails ?? 1,
+        groupedEmails[selectedEmail]?.quarantinedEmails ?? 1,
       ],
       borderColor: [
-        Colors.theme_red_fill,
-        Colors.theme_orange_fill,
         Colors.theme_green_fill,
+        Colors.theme_orange_fill,
+        Colors.theme_red_fill,
       ],
       backgroundColor: [
-        Colors.theme_red_fill,
-        Colors.theme_orange_fill,
         Colors.theme_green_fill,
+        Colors.theme_orange_fill,
+        Colors.theme_red_fill,
       ],
     },
   ]
@@ -111,10 +111,10 @@ const EmailInfoGraph = () => {
         />
         <Div h={1} backgroundColor={Colors.lightGrey} />
         <GraphStatBox
-          title={"Quarantined Emails"}
-          count={groupedEmails?.[selectedEmail]?.quarantinedEmails}
+          title={"Clean Emails"}
+          count={groupedEmails?.[selectedEmail]?.cleanEmails}
           caption={`(${Math.round(
-            (groupedEmails?.[selectedEmail]?.quarantinedEmails /
+            (groupedEmails?.[selectedEmail]?.cleanEmails /
               groupedEmails?.[selectedEmail]?.emails.length) *
               100
           )}%)`}
@@ -131,10 +131,10 @@ const EmailInfoGraph = () => {
         />
         <Div h={1} backgroundColor={Colors.lightGrey} />
         <GraphStatBox
-          title={"Clean Emails"}
-          count={groupedEmails?.[selectedEmail]?.cleanEmails}
+          title={"Quarantined Emails"}
+          count={groupedEmails?.[selectedEmail]?.quarantinedEmails}
           caption={`(${Math.round(
-            (groupedEmails?.[selectedEmail]?.cleanEmails /
+            (groupedEmails?.[selectedEmail]?.quarantinedEmails /
               groupedEmails?.[selectedEmail]?.emails.length) *
               100
           )}%)`}

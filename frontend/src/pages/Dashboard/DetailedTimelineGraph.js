@@ -122,10 +122,10 @@ const DetailedTimelineGraph = () => {
       datasetAvgRiskLevel,
       dataset: [
         {
-          label: "Quarantined",
-          data: quarantinedData,
-          borderColor: [Colors.theme_red_fill],
-          backgroundColor: [Colors.theme_red_fill],
+          label: "Clean",
+          data: cleanData,
+          borderColor: [Colors.theme_green_fill],
+          backgroundColor: [Colors.theme_green_fill],
           cubicInterpolationMode: "monotone",
         },
         {
@@ -136,10 +136,10 @@ const DetailedTimelineGraph = () => {
           cubicInterpolationMode: "monotone",
         },
         {
-          label: "Clean",
-          data: cleanData,
-          borderColor: [Colors.theme_green_fill],
-          backgroundColor: [Colors.theme_green_fill],
+          label: "Quarantined",
+          data: quarantinedData,
+          borderColor: [Colors.theme_red_fill],
+          backgroundColor: [Colors.theme_red_fill],
           cubicInterpolationMode: "monotone",
         },
       ],
@@ -257,9 +257,10 @@ const DetailedTimelineGraph = () => {
           caption={formattedCaption}
         />
         <Div h={1} backgroundColor={Colors.lightGrey} />
-        <GraphStatBox
-          title={"Quarantined Emails"}
-          count={stats.quarantinedEmails}
+        
+          <GraphStatBox
+          title={"Clean Emails"}
+          count={stats.cleanEmails}
           startDate={startDate}
           endDate={endDate}
           caption={formattedCaption}
@@ -274,8 +275,8 @@ const DetailedTimelineGraph = () => {
         />
         <Div h={1} backgroundColor={Colors.lightGrey} />
         <GraphStatBox
-          title={"Clean Emails"}
-          count={stats.cleanEmails}
+          title={"Quarantined Emails"}
+          count={stats.quarantinedEmails}
           startDate={startDate}
           endDate={endDate}
           caption={formattedCaption}

@@ -1,5 +1,5 @@
 const Colors = {
-  theme_green: "#9DCF94",
+  theme_green: "#86b87d",
   theme_green_a_bit_darker: "#50b43d",
   theme_green_fill: "#50b43d80",
   theme_red: "#AD1B02",

@@ -27,18 +27,18 @@ const EmailHealthGraph = () => {
     {
       label: "Number of Emails",
       data: [
-        quarantinedEmails.length,
-        suspiciousEmails.length,
         cleanEmails.length,
+        suspiciousEmails.length,
+        quarantinedEmails.length
       ],
       backgroundColor: [
-        Colors.theme_red_fill,
-        Colors.theme_orange_fill,
         Colors.theme_green_fill,
+        Colors.theme_orange_fill,
+        Colors.theme_red_fill,
       ],
     },
   ]
-  const labels = ["Quarantined", "Suspicious", "Clean"]
+  const labels = ["Clean", "Suspicious", "Quarantined"]
 
   return (
     <Grid container>
@@ -67,17 +67,17 @@ const EmailHealthGraph = () => {
       <Grid item xs={4} container direction={"column"}>
         <GraphStatBox title={"Total Emails"} count={emails.length} />
         <Div h={1} backgroundColor={Colors.lightGrey} />
-        <GraphStatBox
-          title={"Quarantined Emails"}
-          count={quarantinedEmails.length}
-        />
+        <GraphStatBox title={"Clean Emails"} count={cleanEmails.length} />
         <Div h={1} backgroundColor={Colors.lightGrey} />
         <GraphStatBox
           title={"Suspicious Emails"}
           count={suspiciousEmails.length}
         />
         <Div h={1} backgroundColor={Colors.lightGrey} />
-        <GraphStatBox title={"Clean Emails"} count={cleanEmails.length} />
+        <GraphStatBox
+          title={"Quarantined Emails"}
+          count={quarantinedEmails.length}
+        />
       </Grid>
     </Grid>
   )

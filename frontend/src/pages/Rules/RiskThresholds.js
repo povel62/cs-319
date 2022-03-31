@@ -123,7 +123,6 @@ const RiskThresholds = ({ thresholdsParent, saveThresholds }) => {
           <Button
             variant="contained"
             onClick={() => saveThresholds(thresholds)}
-            size="small"
             color="fillColor"
             sx={{ color: "white" }}
           >

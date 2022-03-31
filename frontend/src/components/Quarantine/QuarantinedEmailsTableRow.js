@@ -132,7 +132,7 @@ const QuarantinedEmailsTableRow = ({
               : email.emailCondition === "SUSPICIOUS"
               ? Colors.theme_yellow
               : Colors.theme_red
-          }${20}`,
+          }${25}`,
         }}
         onClick={() => setOpen(!open)}
       >
