@@ -3,6 +3,7 @@ package com.ubc.cpsc319.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.jsoup.Jsoup;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -136,6 +137,11 @@ public class Email {
     public String getBody() {
         return body;
     }
+
+    public String getBodyTextOnly() {
+        return body == null ? "" : Jsoup.parse(body).text().trim();
+    }
+
 
     public void setBody(String body) {
         this.body = body;

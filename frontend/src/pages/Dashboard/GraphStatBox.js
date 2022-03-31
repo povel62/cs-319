@@ -9,7 +9,11 @@ const GraphStatBox = ({ title, count, caption }) => {
       <Div center fill m={8}>
         <Typography style={{ color: Colors.grey }}>{title}</Typography>
         {caption && <Typography variant="caption">{caption}</Typography>}
-        <Typography variant="h5">{count}</Typography>
+        <Div maxWidth={352}>
+          <Typography noWrap variant="h5">
+            {count}
+          </Typography>
+        </Div>
       </Div>
     </Div>
   )

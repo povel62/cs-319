@@ -55,11 +55,13 @@ const BottomStats = () => {
           sortedTriggeredRules?.map(rule => {
             return (
               <Div key={rule.id} fill>
-                <Div h={1} backgroundColor={Colors.lightGrey} />
+                <Div h={0.5} backgroundColor={Colors.lightGrey} />
                 <Div mh={24} fill>
                   <Div fill row center>
-                    <Div>
-                      <Typography>{`${rule.ruleType}: ${rule.name}`}</Typography>
+                    <Div maxWidth={400}>
+                      <Typography
+                        noWrap
+                      >{`${rule.ruleType}: ${rule.name}`}</Typography>
                     </Div>
                     <Div fill />
                     <Div>
@@ -93,11 +95,11 @@ const BottomStats = () => {
           sortedEmailGroups?.map(emailGroup => {
             return (
               <Div key={emailGroup[0]} fill>
-                <Div h={1} backgroundColor={Colors.lightGrey} />
+                <Div h={0.5} backgroundColor={Colors.lightGrey} />
                 <Div mh={24} fill>
                   <Div fill row center>
-                    <Div>
-                      <Typography>{emailGroup[0]}</Typography>
+                    <Div maxWidth={648}>
+                      <Typography noWrap>{emailGroup[0]}</Typography>
                     </Div>
                     <Div fill />
                     <Div>

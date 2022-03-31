@@ -72,7 +72,7 @@ const EmailInfoGraph = () => {
       <Grid item xs>
         <Div m={24}>
           <Div row justifyContentBetween>
-            <Div mb={8}>
+            <Div mb={8} maxWidth={504}>
               <Typography variant="h6">Email Risk Info</Typography>
               <Typography variant="body2" style={{ color: Colors.grey }}>
                 {selectedEmail ?? ""}

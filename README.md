@@ -106,6 +106,14 @@ Shows Active and Inactive rules with its risk level. User is able to add, edit, 
 
 **Material UI** library is being used as a resource for icons, styling and re-usable components.
 
+## CI-CD / DEPLOY
+
+**Github Actions** have been configured to run a build to test the code in the review stage and for a safe check before merging
+
+If there happens to be a merge on master, another action would kickstart that would build the release of the entire code and deploy it on Heroku.
+
+Note: You might need to setup your own project / configure your secret api key from heroku as well
+
 ## Resources
 
 **create-react-app** : The following link has all the commands that can be used with create-react-app

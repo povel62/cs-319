@@ -11,6 +11,7 @@ import microsoft.exchange.webservices.data.property.complex.Attachment;
 import microsoft.exchange.webservices.data.property.complex.EmailAddress;
 import microsoft.exchange.webservices.data.property.complex.ItemAttachment;
 import org.json.JSONArray;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

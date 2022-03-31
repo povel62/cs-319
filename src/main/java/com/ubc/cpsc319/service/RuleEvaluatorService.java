@@ -145,7 +145,7 @@ public class RuleEvaluatorService {
     private boolean evaluateKeywordRule(Rule rule, Email mail, List<Attachment> attachmentList) {
         return mail.getFromAddress().toLowerCase().contains(rule.getName().toLowerCase()) ||
                 mail.getToAddress().toLowerCase().contains(rule.getName().toLowerCase()) ||
-                mail.getBody().toLowerCase().contains(rule.getName().toLowerCase()) ||
+                mail.getBodyTextOnly().toLowerCase().contains(rule.getName().toLowerCase()) ||
                 mail.getSubject().toLowerCase().contains(rule.getName().toLowerCase());
     }
 
@@ -158,7 +158,7 @@ public class RuleEvaluatorService {
     }
 
     private boolean evaluateFrequency(Rule rule, Email mail, List<Attachment> attachmentList) {
-        return mail.getBody().toLowerCase().split(rule.getName().toLowerCase()).length
+        return mail.getBodyTextOnly().toLowerCase().split(rule.getName().toLowerCase()).length
                 > Integer.parseInt(rule.getParameter());
     }
 
@@ -241,7 +241,7 @@ public class RuleEvaluatorService {
 
         return !(mail.getFromAddress().toLowerCase().matches(regex) &&
                 mail.getToAddress().toLowerCase().matches(regex) &&
-                mail.getBody().toLowerCase().matches(regex) &&
+                mail.getBodyTextOnly().toLowerCase().matches(regex) &&
                 mail.getSubject().toLowerCase().matches(regex));
     }
 
