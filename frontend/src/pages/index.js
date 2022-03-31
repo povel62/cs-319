@@ -1,4 +1,4 @@
-export * from "./Dashboard";
-export { default as Login } from "./Login";
-export { default as Rules } from "./Rules";
-export { default as Quarantine } from "./Quarantine";
+export * from "./Dashboard"
+export { default as Login } from "./Login"
+export * from "./Rules"
+export { default as Quarantine } from "./Quarantine"

@@ -10,6 +10,9 @@ export const theme = createTheme({
     secondary: {
       main: Colors.theme_orange,
     },
+    ternary: {
+      main: Colors.theme_yellow,
+    },
     info: {
       main: Colors.theme_pink,
     },

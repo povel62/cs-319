@@ -97,10 +97,16 @@ const QuarantinedEmailsTableRow = ({
             {emailRuleMatches.map((x, i) => (
               <Chip
                 label={
-                  !x.includes("SIZE") ? x : `${x.split(": ").join(": >")} Bytes`
+                  !x.includes("SIZE") ? x : `${x.split(": ").join(": ")} Bytes`
                 }
                 key={`${x}-${i}`}
-                sx={{ marginTop: ".2rem", marginRight: ".2rem" }}
+                sx={{
+                  marginTop: ".2rem",
+                  marginRight: ".2rem",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  maxWidth: "13.5rem",
+                }}
               />
             ))}
           </TableCell>

@@ -72,9 +72,9 @@ const QuarantinedEmailsTable = ({ searchQuery }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5)
 
   useEffect(() => {
-    const sortOrder = localStorage.getItem("sortOrder")
-    const sortProperty = localStorage.getItem("sortProperty")
-    const rowsPerPage = localStorage.getItem("rowsPerPage")
+    const sortOrder = localStorage.getItem("sortOrderEmailsTable")
+    const sortProperty = localStorage.getItem("sortPropertyEmailsTable")
+    const rowsPerPage = localStorage.getItem("rowsPerPageEmailsTable")
     sortOrder && setOrder(sortOrder)
     sortProperty && setOrderBy(sortProperty)
     rowsPerPage !== null && setRowsPerPage(parseInt(rowsPerPage, 10))
@@ -114,8 +114,8 @@ const QuarantinedEmailsTable = ({ searchQuery }) => {
     setOrder(newOrder)
     setOrderBy(property)
     setPage(0)
-    localStorage.setItem("sortOrder", newOrder)
-    localStorage.setItem("sortProperty", property)
+    localStorage.setItem("sortOrderEmailsTable", newOrder)
+    localStorage.setItem("sortPropertyEmailsTable", property)
   }
 
   const handleChangePage = (e, newPage) => {
@@ -125,7 +125,7 @@ const QuarantinedEmailsTable = ({ searchQuery }) => {
   const handleChangeRowsPerPage = (event) => {
     const rowsPerPage = parseInt(event.target.value, 10)
     setRowsPerPage(rowsPerPage)
-    localStorage.setItem("rowsPerPage", rowsPerPage)
+    localStorage.setItem("rowsPerPageEmailsTable", rowsPerPage)
     setPage(0)
   }
 

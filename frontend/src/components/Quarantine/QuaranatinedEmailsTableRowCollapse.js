@@ -128,7 +128,7 @@ const QuaranatinedEmailsTableRowCollapse = ({ open, email }) => {
             {emailRuleMatches.map((x, i) => (
               <Chip
                 label={
-                  !x.includes("SIZE") ? x : `${x.split(": ").join(": >")} Bytes`
+                  !x.includes("SIZE") ? x : `${x.split(": ").join(": ")} Bytes`
                 }
                 key={`${x}-${i}-1`}
                 sx={{ marginBottom: ".2rem", marginLeft: ".2rem" }}

@@ -17,7 +17,7 @@ npm install -g create-react-app
 ```
 ## Live Application URL
 
-The Application is deployed in https://cs319-pwc.herokuapp.com/
+The Application is being deployed @ https://cs319-pwc.herokuapp.com/
 
 Click on the link to see the application
 
@@ -45,7 +45,10 @@ The Application Runs on **localhost:3000**
 
 ### Backend (SpringBoot + MYSQL + Hibernate + JPA)
 
-Install all the maven dependencies packages. Go into the project folder and type the following command to install all maven dependencies
+JDK/JRE Version: JAVA 8 
+
+You can use IntelliJ or Eclipse for Java Development.
+Firstly, begin with installing all the maven dependencies in the project. Go into the project folder and type the following command to install all maven dependencies.
 
 ```bash
 mvn clean install -DskipTests
@@ -77,7 +80,29 @@ Following setup needs to be done for the application to run successfully:
 After this small setup, the Processor Service and Pull Service can be easily modified to use with other third-party email services.
 When the application is started, a Pull Subscription is created with the Exchange server, that on regular intervals checks the inbox folder to moderate incoming emails.
 
-#### Libraries
+### MYSQL Database
+#### Entities: 
+**Email:** (id, from, to, cc, bcc, subject, body, condition, iteratedCondition, score)
+
+**Attachments:** (id, name, size, email_id)
+
+**Rule:** (id, name, parameter, isInactive, risk_level, rule_type)
+
+**EmailRuleMatch:** (id, email_id, rule_id)
+
+**Rule Types:** DOMAIN, KEYWORD, FREQUENCY, SIZE, NO_OF_ATTACHMENTS, ATTACHMENT_SIZE, ATTACHMENT_NAME, USERNAME_ITERATION, ASCII, BLACKLIST
+
+### Frontend Components
+##### Dashboard:
+ On this page a user can view stats for emails, users, rules and email-rule trend for daily, monthly, weekly and yearly.
+##### Rules Page: 
+Shows Active and Inactive rules with its risk level. User is able to add, edit, delete rules on this page. At the bottom of the page, user is able to set the risk level configuration for Clean, Suspicious and Quarantined emails.
+##### Emails Page:
+ Shows a table of emails processed by the system with its score, status and list of rule hits (if any)
+
+### Libraries
+
+**ews-java-api** for connecting with Microsoft Exchange.
 
 **Material UI** library is being used as a resource for icons, styling and re-usable components.
 

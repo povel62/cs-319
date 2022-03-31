@@ -12,13 +12,12 @@ const shownColumns = {
 }
 
 const columnsList = [
-  { id: "fromAddress", label: "From", disabled: true, maxWidth: "100px" },
-  { id: "toAddress", label: "To", maxWidth: "100px" },
-  { id: "subject", label: "Subject", maxWidth: "130px" },
+  { id: "fromAddress", label: "From", disabled: true, maxWidth: "95px" },
+  { id: "toAddress", label: "To", maxWidth: "95px" },
+  { id: "subject", label: "Subject", maxWidth: "125px" },
   {
     id: "emailRuleMatches",
     label: "Rule Hit",
-    maxWidth: "200px",
   },
   { id: "score", label: "Risk Rating", noWrap: true },
   { id: "emailCondition", label: "Risk Level" },
