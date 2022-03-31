@@ -26,9 +26,9 @@ const RiskThresholds = ({ thresholdsParent, saveThresholds }) => {
   ]
 
   return (
-    <Paper variant="outlined" sx={{ padding: ".5rem" }}>
-      <Div m="1vw">
-        <Typography variant="h5" sx={{ paddingBottom: ".5rem" }}>
+    <Paper variant="outlined">
+      <Div m={24}>
+        <Typography variant="h6" sx={{ paddingBottom: ".5rem" }}>
           Risk Thresholds
         </Typography>
         <Divider />

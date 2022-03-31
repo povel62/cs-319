@@ -27,7 +27,7 @@ const Ruleset = ({ name, children, type }) => {
       }}
     >
       <Div m={24}>
-        <Typography variant="h5">{name}</Typography>
+        <Typography variant="h6">{name}</Typography>
         <Divider sx={{ marginTop: ".4rem" }} />
         <Div h="1vh" />
         <Box sx={{ padding: ".3rem 1rem" }} display="flex" flexGrow={1}>
