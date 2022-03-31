@@ -60,7 +60,13 @@ public enum RuleType {
             "Intended to prevent emails from abusing special characters to mask words " +
             "(i.e. C̳o̳s̳t̳-̳c̳o̳)\n" +
             "Recommended risk level: 0.6-0.9\n\n" +
-            "See also: Domain, Keyword");
+            "See also: Domain, Keyword"),
+    // Blacklist taken from https://github.com/Steemhunt/temporary-email-blacklist/blob/master/blacklist.txt
+    BLACKLIST("Checks whether email domain is in blacklist (5200+ domains)\n" +
+            "See: https://github.com/Steemhunt/temporary-email-blacklist/blob/master/blacklist.txt\n\n" +
+            "Recommended risk level: 0.9+\n\n" +
+            "See also: ASCII");
+
 
     private final String description;
 

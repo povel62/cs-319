@@ -86,7 +86,7 @@ const BottomStats = () => {
         <Div m={24}>
           <Typography variant="h6">Most At Risk Users</Typography>
           <Typography variant="body2" style={{ color: Colors.grey }}>
-            {"(Users with the most suspicious or spam/quarantined emails)"}
+            {"(Users with the most suspicious or quarantined emails)"}
           </Typography>
         </Div>
         {sortedEmailGroups?.length > 0 ? (

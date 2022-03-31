@@ -1,7 +1,6 @@
 package com.ubc.cpsc319.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubc.cpsc319.entity.Attachment;
 import com.ubc.cpsc319.entity.Email;
 import com.ubc.cpsc319.entity.Rule;
@@ -9,7 +8,9 @@ import com.ubc.cpsc319.evaluation.RuleEvalStruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +19,9 @@ import java.util.Set;
 public class RuleEvaluatorService {
 
     private Set<String> fromEmailAddrCache;
+    private Set<String> blacklist;
+    private boolean blacklistWorking;
+    private final String blacklistFilepath = "./src/main/java/com/ubc/cpsc319/evaluation/Blacklist.txt";
 
     @Autowired
     CacheService cacheService;
@@ -29,6 +33,8 @@ public class RuleEvaluatorService {
 
     public RuleEvaluatorService() {
         this.fromEmailAddrCache = new HashSet<>();
+        this.blacklist = new HashSet<>();
+        this.blacklistWorking = true;
     }
 
     public void initService() {
@@ -48,6 +54,29 @@ public class RuleEvaluatorService {
                         }
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
+                    }
+
+                    // create blacklist set
+                    try (FileReader f = new FileReader(blacklistFilepath)) {
+                        StringBuffer sb = new StringBuffer();
+                        while (f.ready()) {
+                            char c = (char) f.read();
+                            if (c == '\n') {
+                                blacklist.add(sb.toString());
+                                sb = new StringBuffer();
+                            } else {
+                                sb.append(c);
+                            }
+                        }
+                        if (sb.length() > 0) {
+                            blacklist.add(sb.toString());
+                        }
+                    } catch(FileNotFoundException e) {
+                        System.out.println(e.getMessage());
+                        this.blacklistWorking = false;
+                    } catch(IOException e) {
+                        System.out.println(e.getMessage());
+                        this.blacklistWorking = false;
                     }
                     isCacheInit = true;
                 }
@@ -86,6 +115,9 @@ public class RuleEvaluatorService {
                     break;
                 case ASCII:
                     isHit = evaluateASCIIRule(rule, mail, attachmentList);
+                    break;
+                case BLACKLIST:
+                    isHit = evaluateBlacklistRule(rule, mail, attachmentList);
                     break;
                 default:
                     isHit = false;
@@ -211,6 +243,18 @@ public class RuleEvaluatorService {
                 mail.getToAddress().toLowerCase().matches(regex) &&
                 mail.getBody().toLowerCase().matches(regex) &&
                 mail.getSubject().toLowerCase().matches(regex));
+    }
+
+    private boolean evaluateBlacklistRule(Rule rule, Email mail, List<Attachment> attachmentList) {
+        if (!blacklistWorking) {
+            return false;
+        }
+
+        String address = mail.getFromAddress();
+        String email = address.substring(address.indexOf('<')+1, address.indexOf('>'));
+        String domain  = email.split("@", 2)[1];
+
+        return blacklist.contains(domain);
     }
 }
 

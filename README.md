@@ -25,7 +25,7 @@ Click on the link to see the application
 
 Clone the project into local
 
-### Frontend
+### Frontend (React + Redux + Material UI)
 
 Install all the yarn packages. Go into the project folder and type the following command to install all yarn packages
 
