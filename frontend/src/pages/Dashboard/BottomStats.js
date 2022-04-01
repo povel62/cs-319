@@ -44,7 +44,7 @@ const BottomStats = () => {
     <Div row fill minHeight={320}>
       <StatBox>
         <Div m={24}>
-          <Typography variant="h6">Top Triggered Rules</Typography>
+          <Typography variant="h6">Most Triggered Rules</Typography>
           <Typography variant="body2" style={{ color: Colors.grey }}>
             {moment()
               .tz("America/Vancouver")
@@ -92,7 +92,7 @@ const BottomStats = () => {
           </Typography>
         </Div>
         {sortedEmailGroups?.length > 0 ? (
-          sortedEmailGroups?.map(emailGroup => {
+          sortedEmailGroups?.slice(0, 4).map(emailGroup => {
             return (
               <Div key={emailGroup[0]} fill>
                 <Div h={0.5} backgroundColor={Colors.lightGrey} />
